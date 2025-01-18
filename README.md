@@ -16,6 +16,22 @@ Voting results will be visible and updated in real time as the poll progresses. 
 Poll creators will have the option to lock polls with a passcode, ensuring that only authorized users can access and participate.
 ### 6. Accredited Body Polls
 VoteChain will also support body-specific polls, where only pre-approved voters can participate. This feature is ideal for organizations or communities that need exclusive voting rights for their members.
+
+## Project Goals
+- Build a secure, scalable, and transparent voting platform.
+- Provide a seamless user experience that ensures trust and fairness.
+- Mimic real-world election systems to accommodate various use cases.
+- Promote decentralized governance through an accessible voting system.
+
+## Use Cases
+- Community and DAO Governance.
+- Corporate Elections.
+- Political or Social Group Elections.
+- Private or Restricted Polls for Specific Organizations.
+
+## View Progress so far
+visit: 
+
 <!--
 **VoteChain/VoteChain** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
