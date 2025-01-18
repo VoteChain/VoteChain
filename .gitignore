@@ -1,2 +1,4 @@
 .env
 commands.txt
+.DS_Store
+.gitignore
