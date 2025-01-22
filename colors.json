@@ -1,0 +1,116 @@
+{
+    "light_theme": {
+        "background": {
+            "color": "#FFFFFF",
+            "name": "White",
+            "usage": "Main background color of the platform."
+        },
+        "text_primary": {
+            "color": "#333333",
+            "name": "Dark Gray",
+            "usage": "Primary text color for readability."
+        },
+        "text_secondary": {
+            "color": "#666666",
+            "name": "Light Gray",
+            "usage": "Secondary or less important text."
+        },
+        "button_primary": {
+            "color": "#4CAF50",
+            "name": "Emerald Green",
+            "usage": "Main action button, e.g., 'Vote', 'Submit'."
+        },
+        "button_secondary": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Secondary action button, e.g., 'Cancel', 'Back'."
+        },
+        "link": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Hyperlinks and clickable elements."
+        },
+        "status_success": {
+            "color": "#4CAF50",
+            "name": "Emerald Green",
+            "usage": "Indicates success or confirmation (e.g., 'Vote Confirmed')."
+        },
+        "status_error": {
+            "color": "#FF5B5B",
+            "name": "Red",
+            "usage": "Indicates error or failure (e.g., 'Invalid Vote')."
+        },
+        "status_warning": {
+            "color": "#FF8C00",
+            "name": "Orange",
+            "usage": "Indicates pending or warning states (e.g., 'Vote Pending')."
+        },
+        "status_info": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Information or neutral status updates."
+        },
+        "highlight": {
+            "color": "#FFD700",
+            "name": "Gold",
+            "usage": "Highlight important information or results."
+        }
+    },
+    "dark_theme": {
+        "background": {
+            "color": "#333333",
+            "name": "Charcoal",
+            "usage": "Main background color for dark mode."
+        },
+        "text_primary": {
+            "color": "#FFFFFF",
+            "name": "White",
+            "usage": "Primary text color for readability in dark mode."
+        },
+        "text_secondary": {
+            "color": "#B0B0B0",
+            "name": "Light Gray",
+            "usage": "Secondary or less important text in dark mode."
+        },
+        "button_primary": {
+            "color": "#4CAF50",
+            "name": "Emerald Green",
+            "usage": "Main action button, e.g., 'Vote', 'Submit'."
+        },
+        "button_secondary": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Secondary action button, e.g., 'Cancel', 'Back'."
+        },
+        "link": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Hyperlinks and clickable elements in dark mode."
+        },
+        "status_success": {
+            "color": "#4CAF50",
+            "name": "Emerald Green",
+            "usage": "Indicates success or confirmation (e.g., 'Vote Confirmed')."
+        },
+        "status_error": {
+            "color": "#FF5B5B",
+            "name": "Red",
+            "usage": "Indicates error or failure (e.g., 'Invalid Vote')."
+        },
+        "status_warning": {
+            "color": "#FF8C00",
+            "name": "Orange",
+            "usage": "Indicates pending or warning states (e.g., 'Vote Pending')."
+        },
+        "status_info": {
+            "color": "#66B2FF",
+            "name": "Sky Blue",
+            "usage": "Information or neutral status updates in dark mode."
+        },
+        "highlight": {
+            "color": "#FFD700",
+            "name": "Gold",
+            "usage": "Highlight important information or results in dark mode."
+        }
+    }
+}
