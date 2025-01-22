@@ -4,8 +4,14 @@ const accountId = context.accountId;
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
 
+// Storing some values in state
+const [state, setState] = useState({
+  error: "",
+  showError: false,
+});
+
 // Get all the votes
-const Data = Social.get(`abnakore.near/votes`);
+const Data = Social.index("voteChainTest", "vote");
 
 useEffect(() => {
   //   console.log(Data);
@@ -155,7 +161,7 @@ function updateDropDown(e) {
 const [test, setTest] = useState("E");
 
 const secText = styled.h5`
-    text-align: center;
+  text-align: center;
 `;
 
 // Hashing function
@@ -175,18 +181,32 @@ function createVote() {
   console.log(newVote);
   // Check if the name is valid
   if (newVote.name === "") {
-    console.log("Name cannot be Empty");
+    setState({
+      ...state,
+      error: "Name cannot be Empty",
+      showError: true,
+    });
     return;
   }
 
   // Validate desc
   if (newVote.desc === "") {
+    setState({
+      ...state,
+      error: "Description cannot be Empty",
+      showError: true,
+    });
     console.log("Description cannot be Empty");
     return;
   }
 
   // Validate role
   if (newVote.role === "") {
+    setState({
+      ...state,
+      error: "Role cannot be Empty",
+      showError: true,
+    });
     console.log("Role cannot be Empty");
     return;
   }
@@ -194,6 +214,11 @@ function createVote() {
   // Validate start and end date and time
   if (newVote.openTime !== "" && newVote.closeTime !== "") {
     if (Date.parse(newVote.openTime) >= Date.parse(newVote.closeTime)) {
+      setState({
+        ...state,
+        error: "Opening time must be earlier than the close time",
+        showError: true,
+      });
       console.log("Opening time must be earlier than the close time");
       return;
     }
@@ -222,10 +247,18 @@ function createVote() {
   tempVote.passcode = hash(newVote.passcode);
   tempVote.id = allVotes.length;
 
-  //   console.log("That", tempVote);
+  // console.log("That", tempVote);
 
   // Upload the data to socialDb
-  Social.set({ votes: allVotes.concat([tempVote]) });
+  // Social.set({ votes: allVotes.concat([tempVote]) });
+  Social.set({
+    index: {
+      voteChainTest: JSON.stringify({
+        key: "vote",
+        value: tempVote,
+      }),
+    },
+  });
 
   setNewVote({
     name: "",
@@ -242,6 +275,8 @@ function createVote() {
     parties: [],
     voters: [],
   });
+  setCandidates([]);
+  setParties([]);
 }
 
 return (
@@ -254,6 +289,9 @@ return (
             <div className="main-body">
               <div className="body-contents">
                 <h1>Create</h1>
+                {state.showError && (
+                  <p style={{ color: "red" }}>{state.error}</p>
+                )}
                 <div className="form">
                   <Widget
                     src="abnakore.near/widget/Input.jsx"
@@ -274,7 +312,7 @@ return (
                     src="abnakore.near/widget/Input.jsx"
                     props={{
                       type: "text",
-                      placeholder: "Description",
+                      placeholder: `Description ${newVote.desc.length}/700`,
                       required: true,
                       kind: "textarea",
                       item: "desc",
@@ -282,6 +320,8 @@ return (
                       setItem: setNewVote,
                       otherAttributes: {
                         value: newVote.desc,
+                        maxLength: 700,
+                        rows: 10,
                       },
                     }}
                   />
@@ -376,7 +416,7 @@ return (
                             key={party.acronym}
                             value={party.acronym}
                           >
-                            {party.name}({party.acronym})
+                            {party.name} ({party.acronym})
                           </option>
                         ))}
                       </select>
@@ -403,7 +443,7 @@ return (
                     src="abnakore.near/widget/Input.jsx"
                     props={{
                       type: "password",
-                      placeholder: "Passcode",
+                      placeholder: "Passcode (optional)",
                       required: false,
                       item: "passcode",
                       items: newVote,
@@ -417,7 +457,7 @@ return (
                     src="abnakore.near/widget/Input.jsx"
                     props={{
                       type: "number",
-                      placeholder: "Max number of voters",
+                      placeholder: "Max number of voters (optional)",
                       required: false,
                       item: "limit",
                       items: newVote,
@@ -458,7 +498,7 @@ return (
                       src="abnakore.near/widget/Input.jsx"
                       props={{
                         type: "datetime-local",
-                        placeholder: "Close on",
+                        placeholder: "Close on (optional)",
                         required: true,
                         item: "closeTime",
                         items: newVote,
@@ -491,27 +531,3 @@ return (
     )}
   </>
 );
-
-// // Get accountId
-// const accountId = context.accountId;
-
-// return (
-//   <>
-//     {accountId ? (
-//       <Widget
-//         src="abnakore.near/widget/Wrapper"
-//         props={{
-//           body: (
-//             <div className="main-body">
-//               <div className="body-contents">
-//                 <h1>____</h1>
-//               </div>
-//             </div>
-//           ),
-//         }}
-//       />
-//     ) : (
-//       <Widget src="abnakore.near/widget/SignIn.jsx" props={props} />
-//     )}
-//   </>
-// );
