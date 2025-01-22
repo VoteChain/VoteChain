@@ -41,6 +41,9 @@
     },
     "components/widget/SignIn": {
       "code": "const accountId = context.accountId;\n\nreturn (\n  <Widget\n    src=\"abnakore.near/widget/Wrapper\"\n    props={{\n      body: (\n        <div className=\"main-body\">\n          <div className=\"body-contents\">\n            <h1>Sign In</h1>\n            <div className=\"form\">\n              <a\n                href={\n                  accountId\n                    ? \"https://near.org/abnakore.near/widget/App.jsx\"\n                    : \"https://near.org/signin\"\n                }\n              >\n                <button className=\"submit\">\n                  {accountId ? \"Home\" : \"Sign In\"}\n                </button>\n              </a>\n              <p className=\"member\">\n                {accountId === \"abnakore.near\" ? (\n                  <a href=\"https://near.org/abnakore.near/widget/AdminHome\">\n                    I'm an Admin\n                  </a>\n                ) : null}\n              </p>\n            </div>\n          </div>\n        </div>\n      ),\n    }}\n  />\n);\n"
+    },
+    "components/widget/Button": {
+      "code": ""
     }
   }
 }
