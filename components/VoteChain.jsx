@@ -51,26 +51,26 @@ useEffect(() => {
 const [pages, setPage] = useState([
   {
     name: "All Votes",
-    link: "https://near.social/abnakore.near/widget/VoteChain",
+    link: "/abnakore.near/widget/VoteChain",
     handleClick: () => setTab("all"),
     tag: "all",
   },
   {
     name: "My Votes",
-    link: "https://near.social/abnakore.near/widget/VoteChain?tab=my_votes",
+    link: "/abnakore.near/widget/VoteChain?tab=my_votes",
     handleClick: () => setTab("my_votes"),
     tag: "my_votes",
   },
   {
     name: "Watchlist",
-    link: "https://near.social/abnakore.near/widget/VoteChain?tab=watchlist",
+    link: "/abnakore.near/widget/VoteChain?tab=watchlist",
     handleClick: () => setTab("watchlist"),
     tag: "watchlist",
   },
   // {
   //   name: "Create New Vote",
   //   type: "button",
-  //   link: "https://near.social/abnakore.near/widget/CreateVote",
+  //   link: "/abnakore.near/widget/CreateVote",
   // },
 ]);
 
@@ -209,8 +209,8 @@ return (
               {votesToRender.length > 0 ? (
                 <List>
                   {votesToRender.map((vote) => (
-                    <a
-                      href={`https://near.social/abnakore.near/widget/App.jsx?vote=${vote.blockHeight}`}
+                    <Link
+                      to={`/abnakore.near/widget/App.jsx?vote=${vote.blockHeight}`}
                     >
                       <Widget
                         src="abnakore.near/widget/VoteCard"
@@ -226,7 +226,7 @@ return (
                           style: {},
                         }}
                       />
-                    </a>
+                    </Link>
                   ))}
                 </List>
               ) : (
