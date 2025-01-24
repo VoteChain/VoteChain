@@ -86,34 +86,34 @@ useEffect(() => {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Admin Home",
-        link: `https://near.social/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Manage Candidates",
-        link: `https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Mange Parties",
-        link: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
       },
     ]);
   } else {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
     ]);
   }
@@ -132,7 +132,10 @@ return (
                   <div className="two-sides">
                     <Widget
                       src="abnakore.near/widget/Aside"
-                      props={{ objs: pages, active: "/admin" }}
+                      props={{
+                        objs: pages,
+                        active: `/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+                      }}
                     />
                     {voteToRender.value.creator === accountId ? (
                       <div className="body-contents">
@@ -163,11 +166,11 @@ return (
                           }}
                         />
 
-                        <a
-                          href={`https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`}
+                        <Link
+                          to={`/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`}
                         >
                           <button>Add Candidate</button>
-                        </a>
+                        </Link>
                         <hr />
                         <h4>Parties Details</h4>
                         <Widget
@@ -182,11 +185,11 @@ return (
                           }}
                         />
 
-                        <a
-                          href={`https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`}
+                        <Link
+                          to={`/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`}
                         >
                           <button>Add Party</button>
-                        </a>
+                        </Link>
                         <hr />
                       </div>
                     ) : (
@@ -198,9 +201,9 @@ return (
                 ) : (
                   <div className="body-contents">
                     <h1>You don't have access to this page</h1>
-                    <a href="https://near.social/abnakore.near/widget/VoteChain">
+                    <Link to="/abnakore.near/widget/VoteChain">
                       Back to Home Page
-                    </a>
+                    </Link>
                   </div>
                 )
               ) : (
