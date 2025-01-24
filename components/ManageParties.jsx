@@ -84,34 +84,34 @@ useEffect(() => {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Admin Home",
-        link: `https://near.social/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Manage Candidates",
-        link: `https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
       },
       {
-        name: "Mange Parties",
-        link: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
+        name: "Manage Parties",
+        link: `/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
       },
     ]);
   } else {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
     ]);
   }
@@ -221,7 +221,7 @@ return (
                     src="abnakore.near/widget/Aside"
                     props={{
                       objs: pages,
-                      active: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.value.id}`,
+                      active: `/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
                     }}
                   />
                   {voteToRender.value.creator === accountId ? (
@@ -283,9 +283,9 @@ return (
                   ) : (
                     <div className="body-contents">
                       <h1>You don't have access to this page</h1>
-                      <a href="https://near.social/abnakore.near/widget/VoteChain">
+                      <Link to="/abnakore.near/widget/VoteChain">
                         Back to Home Page
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>
