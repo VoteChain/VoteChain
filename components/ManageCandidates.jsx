@@ -254,7 +254,10 @@ return (
                 <div className="two-sides">
                   <Widget
                     src="abnakore.near/widget/Aside"
-                    props={{ objs: pages, active: "/admin/manage_candidates" }}
+                    props={{
+                      objs: pages,
+                      active: `/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+                    }}
                   />
                   {voteToRender.value.creator === accountId ? (
                     <div className="body-contents">
