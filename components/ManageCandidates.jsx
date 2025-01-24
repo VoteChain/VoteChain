@@ -4,25 +4,27 @@ const accountId = context.accountId;
 // Declaring variables
 // !!!
 const voteId = props.vote && parseFloat(props.vote);
-// const voteId = 113239184;
+// const voteId = 113225718;
 
 // All the votes
-// const [allVotes, setAllVotes] = useState([]);
-// const [voteToRender, setVoteToRender] = useState([]);
 const allVotes = Social.index("voteChainTest", "vote")
   ? Social.index("voteChainTest", "vote")
   : [];
-const [otherCandidates, setOtherCandidates] = useState(
-  Social.index("voteChainTest", "candidate")
-    ? Social.index("voteChainTest", "candidate")
-    : []
-);
-const otherParties = Social.index("voteChainTest", "party");
+const otherCandidates = Social.index("voteChainTest", "candidate")
+  ? Social.index("voteChainTest", "candidate")
+  : [];
+const otherParties = Social.index("voteChainTest", "party")
+  ? Social.index("voteChainTest", "party")
+  : [];
+const votes = Social.index("voteChainTest", "votes")
+  ? Social.index("voteChainTest", "votes")
+  : [];
 
 // Set the value of votetorender by adding other parties and candidates to it
 function getValue() {
-  console.log(otherCandidates);
+  console.log(otherCandidates, "this");
   var temp = allVotes.find((vote) => vote.blockHeight === voteId);
+  var votesOnThis = votes.filter((vote) => vote.value.voteId === voteId);
   return {
     ...temp,
     value: {
@@ -40,17 +42,29 @@ function getValue() {
             acronym: party.value.acronym,
           }))
       ),
-      candidates: temp.value.candidates.concat(
-        otherCandidates
-          .filter(
-            (candidate) =>
-              candidate.value.voteId === voteId &&
-              candidate.value.name &&
-              candidate.value.party &&
-              candidate.value.role
-          )
-          .map((c) => c.value)
-      ),
+      candidates: temp.value.candidates
+        .concat(
+          // Add other candidates to the list of all candidates
+          otherCandidates
+            .filter(
+              (candidate) =>
+                // Get only the candidates of the vote and vreified
+                candidate.value.voteId === voteId &&
+                candidate.value.name &&
+                candidate.value.party &&
+                candidate.value.role
+            )
+            .map((c) => c.value)
+        )
+        .map(
+          // This put the number of votes of the candidate
+          (cand, i) => ({
+            ...cand,
+            votes: votesOnThis.filter((vote) => vote.value.party === cand.party)
+              .length,
+          })
+        ),
+      voters: votesOnThis.map((vote) => vote.value.by),
     },
   };
 }
@@ -63,34 +77,6 @@ useEffect(() => {
   console.log(voteToRender, allVotes, "votesData");
 }, [allVotes]);
 
-function refresh() {
-  setOtherCandidates(
-    Social.index("voteChainTest", "candidate")
-      ? Social.index("voteChainTest", "candidate")
-      : []
-  );
-  setVoteToRender(getValue());
-  // remove error
-  setState({
-    ...state,
-    error: "",
-    showError: false,
-  });
-  setNewCandidate({
-    name: "",
-    party: "",
-    role: "",
-    votes: 0,
-  });
-  console.log("donee");
-}
-
-// Storing some data in state
-const [state, setState] = useState({
-  error: "",
-  showError: false,
-});
-
 // Pages that will be displayed in the aside
 const [pages, setPages] = useState([]);
 
@@ -100,148 +86,39 @@ useEffect(() => {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Admin Home",
-        link: `https://near.social/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Manage Candidates",
-        link: `https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Mange Parties",
-        link: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
       },
     ]);
   } else {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
     ]);
   }
 }, [voteToRender.value.creator === accountId]);
 
-// Function that get the unselected parties
-function getUnusedParties() {
-  const usedParties = voteToRender.value.candidates.map(
-    (candidate) => candidate.party
-  );
-  const unusedParties = voteToRender.value.parties.filter(
-    (party) => !usedParties.includes(party.acronym)
-  );
-  return unusedParties;
-}
-
-// List of candidates and their curresponding number of votes
-// const [candidates, setCandidates] = useState([]);
-
-// name and acro
-const [newCandidate, setNewCandidate] = useState({
-  name: "",
-  party: "",
-  role: "",
-  votes: 0,
-});
-
-// Update the dropdown
-function updateDropDown(e) {
-  setNewCandidate((prev) => {
-    prev.party = e.target.value;
-    return prev;
-  });
-}
-
-// Save the data and add a new candidate
-function save() {
-  if (newCandidate.name !== "" && newCandidate.party !== "") {
-    setOtherCandidates(
-      Social.index("voteChainTest", "candidate")
-        ? Social.index("voteChainTest", "candidate")
-        : []
-    );
-    setVoteToRender(getValue());
-
-    // check if there is another candidate with thesame party
-    const filtered = voteToRender.value.candidates.filter((candidate) => {
-      return candidate.party.toLowerCase() === newCandidate.party.toLowerCase();
-    });
-    if (filtered.length > 0) {
-      setState({
-        ...state,
-        error: "Two candidates cannot be in thesame party",
-        showError: true,
-      });
-      return;
-    }
-
-    const NewCandidate = {
-      ...newCandidate,
-      name: newCandidate.name
-        .toLowerCase()
-        .replace(/\b\w/g, (s) => s.toUpperCase()),
-      role: voteToRender.value.role,
-      votes: 0,
-      voteId: voteId,
-    };
-
-    // Upload the data to socialDb
-    console.log(NewCandidate);
-    // Social.set({
-    //   index: {
-    //     voteChainTest: JSON.stringify({
-    //       key: "candidate",
-    //       value: NewCandidate,
-    //     }),
-    //   },
-    // });
-    // setNewCandidate({
-    //   name: "",
-    //   party: "",
-    //   role: "",
-    //   votes: 0,
-    // });
-    setState({
-      ...state,
-      error: "",
-      showError: false,
-    });
-    return {
-      index: {
-        voteChainTest: JSON.stringify({
-          key: "candidate",
-          value: NewCandidate,
-        }),
-      },
-    };
-  } else {
-    setState({
-      ...state,
-      error: `Candidate's ${
-        newCandidate.name === "" ? "Name" : "Party"
-      } can not be empty`,
-      showError: true,
-    });
-    return null;
-  }
-}
-
-const secText = styled.h3`
-  text-align: center;
-`;
-
-// Only signed In users can access the page
 return (
   <>
     {accountId ? (
@@ -251,90 +128,81 @@ return (
           body: (
             <div className="main-body">
               {voteToRender ? (
-                <div className="two-sides">
-                  <Widget
-                    src="abnakore.near/widget/Aside"
-                    props={{ objs: pages, active: "/admin/manage_candidates" }}
-                  />
-                  {voteToRender.value.creator === accountId ? (
-                    <div className="body-contents">
-                      <h1>Manage Candidates</h1>
-                      <Widget
-                        src="abnakore.near/widget/Table"
-                        props={{
-                          headings: [
-                            "S/N",
-                            "Candidate's Name",
-                            "Party",
-                            "Role",
-                          ],
-                          data: Object.values(
-                            voteToRender.value.candidates
-                              .sort((a, b) => a.name > b.name)
-                              .map((c, i) =>
-                                [i + 1].concat([c.name, c.party, c.role])
-                              )
-                          ),
-                        }}
-                      />
-                      <div className="form">
-                        <secText>Add Candidate</secText>
-                        {state.showError && (
-                          <p style={{ color: "red", textAlign: "center" }}>
-                            {state.error}
-                          </p>
-                        )}
-                        <div className="flex">
-                          <Widget
-                            src="abnakore.near/widget/Input.jsx"
-                            props={{
-                              type: "text",
-                              placeholder: "Full Name",
-                              required: true,
-                              item: "name",
-                              items: newCandidate,
-                              setItem: setNewCandidate,
-                              otherAttributes: {
-                                value: newCandidate.name,
-                              },
-                            }}
-                          />
+                voteToRender.value.creator === accountId ? (
+                  <div className="two-sides">
+                    <Widget
+                      src="abnakore.near/widget/Aside"
+                      props={{ objs: pages, active: "/admin" }}
+                    />
+                    {voteToRender.value.creator === accountId ? (
+                      <div className="body-contents">
+                        <h1>Admin Home</h1>
+                        <h4>Candidates Details</h4>
+                        <Widget
+                          src="abnakore.near/widget/Table"
+                          props={{
+                            headings: [
+                              "S/N",
+                              "Candidate's Name",
+                              "Party",
+                              "Role",
+                              "Number of votes",
+                            ],
+                            data: Object.values(
+                              voteToRender.value.candidates
+                                .sort((a, b) => a.votes - b.votes)
+                                .map((c, i) =>
+                                  [i + 1].concat([
+                                    c.name,
+                                    c.party,
+                                    c.role,
+                                    c.votes,
+                                  ])
+                                )
+                            ),
+                          }}
+                        />
 
-                          <select
-                            className="drop-down"
-                            value={newCandidate.party}
-                            onChange={updateDropDown}
-                            name="party"
-                            required
-                          >
-                            <option className="option" value="">
-                              Select Party
-                            </option>
-                            {getUnusedParties().map((party) => (
-                              <option
-                                className="option"
-                                key={party.acronym}
-                                value={party.acronym}
-                              >
-                                {party.name} ({party.acronym})
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <CommitButton data={save} onCommit={refresh}>
-                          Add
-                        </CommitButton>
+                        <Link
+                          to={`/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`}
+                        >
+                          <button>Add Candidate</button>
+                        </Link>
+                        <hr />
+                        <h4>Parties Details</h4>
+                        <Widget
+                          src="abnakore.near/widget/Table"
+                          props={{
+                            headings: ["S/N", "Party Name", "Acronym"],
+                            data: Object.values(
+                              voteToRender.value.parties.map((p, i) =>
+                                [i + 1].concat(Object.values(p))
+                              )
+                            ),
+                          }}
+                        />
+
+                        <Link
+                          to={`/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`}
+                        >
+                          <button>Add Party</button>
+                        </Link>
+                        <hr />
                       </div>
-                    </div>
-                  ) : (
-                    <div className="body-contents">
-                      <h1>You don't have access to this page</h1>
-                      <a href="https://near.social/abnakore.near/widget/VoteChain">
-                        Back to Home Page
-                      </a>
-                    </div>
-                  )}
-                </div>
+                    ) : (
+                      <div className="body-contents">
+                        <h1>Can not access this page</h1>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="body-contents">
+                    <h1>You don't have access to this page</h1>
+                    <Link to="/abnakore.near/widget/VoteChain">
+                      Back to Home Page
+                    </Link>
+                  </div>
+                )
               ) : (
                 <div className="body-contents">
                   <h1>Vote Doesn't exist</h1>
@@ -345,7 +213,7 @@ return (
         }}
       />
     ) : (
-      <Widget src="abnakore.near/widget/SignIn.jsx" props={props} />
+      <Widget src="abnakore.near/widget/SignIn.jsx" />
     )}
   </>
 );
