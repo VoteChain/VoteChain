@@ -81,11 +81,11 @@ const [voteToRender, setVoteToRender] = useState(getValue());
 const [pages, setPages] = useState([
   {
     name: "Voting Page",
-    link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+    link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
   },
   {
     name: "Result",
-    link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+    link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
   },
 ]);
 
@@ -95,34 +95,34 @@ useEffect(() => {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Admin Home",
-        link: `https://near.social/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/AdminHome?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Manage Candidates",
-        link: `https://near.social/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageCandidates?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Mange Parties",
-        link: `https://near.social/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/ManageParties?vote=${voteToRender.blockHeight}`,
       },
     ]);
   } else {
     setPages([
       {
         name: "Voting Page",
-        link: `https://near.social/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/App.jsx?vote=${voteToRender.blockHeight}`,
       },
       {
         name: "Result",
-        link: `https://near.social/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+        link: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
       },
     ]);
   }
@@ -175,7 +175,10 @@ return (
                 <div className="two-sides">
                   <Widget
                     src="abnakore.near/widget/Aside"
-                    props={{ objs: pages, active: "/result" }}
+                    props={{
+                      objs: pages,
+                      active: `/abnakore.near/widget/Result.jsx?vote=${voteToRender.blockHeight}`,
+                    }}
                   />
 
                   {voteToRender.value.passcode === "" || opened ? (
