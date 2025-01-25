@@ -97,7 +97,7 @@ const StyledAside = styled.div`
     display: none;
   }
 `;
-console.log(props.button.link);
+
 const [opened, setOpened] = useState(false);
 return (
   <StyledAside className={`aside ${opened ? "opened" : "closed"}`}>
@@ -129,19 +129,30 @@ return (
           )
         )}
       </div>
-      {/* !!! Fix handle Click */}
-      {props.button ? (
-        <Widget
-          src="abnakore.near/widget/Button"
-          props={{
-            title: props.button.title,
-            handleClick: props.button.handleClick
-              ? props.button.handleClick
-              : () => (location.href = JSON.stringify(props.button.link)),
-            theme: "primary",
-          }}
-        />
-      ) : null}
+      
+      {props.button &&
+        (props.button.handleClick ? (
+          <Widget
+            src="abnakore.near/widget/Button"
+            props={{
+              title: props.button.title,
+              handleClick: props.button.handleClick,
+              theme: "primary",
+            }}
+          />
+        ) : (
+          <Link to={props.button.link}>
+            <Widget
+              src="abnakore.near/widget/Button"
+              props={{
+                title: props.button.title,
+                handleClick: () =>
+                  console.log(`${props.button.title} Button Clicked!!`),
+                theme: "primary",
+              }}
+            />
+          </Link>
+        ))}
     </div>
     <div onClick={() => setOpened(!opened)} className="toggle">
       <i>X</i>
