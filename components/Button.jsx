@@ -13,7 +13,9 @@ const StyledButton = styled.button`
 
   &:hover {
     background-color: #5cbf40;
-    transform: scale(1.04);
+    &.scale {
+      transform: scale(1.04);
+    }
   }
 
   &:after {
@@ -31,7 +33,12 @@ const StyledButton = styled.button`
 `;
 
 return (
-  <StyledButton className={`button ${props.theme}`} onClick={props.handleClick}>
+  <StyledButton
+    className={`button ${!props.scaleWhenHover ? null : "scale"} ${
+      props.theme
+    }`}
+    onClick={props.handleClick}
+  >
     {props.title}
   </StyledButton>
 );
