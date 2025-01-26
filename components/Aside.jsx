@@ -103,54 +103,55 @@ const StyledAside = styled.div`
   }
 
   /* Responsive (tab, mobile) */
-  &.tab,
-  &.mobile {
-    overflow: hidden;
+  @media screen and (max-width: 1000px) {
+    & {
+      overflow: hidden;
 
-    &.opened {
-      border-radius: 25px 25px 0 0;
-      overflow: visible;
-    }
+      &.opened {
+        border-radius: 25px 25px 0 0;
+        overflow: visible;
+      }
 
-    .right,
-    .tabs {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-    }
+      .right,
+      .tabs {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
 
-    .right {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background-color: var(--faded_bg_color);
-      backdrop-filter: blur(10px);
-      border-radius: 0 0 25px 25px;
-      padding-bottom: 20px;
-      display: none;
-      z-index: -1;
-      animation: fall 0.2s forwards;
-    }
+      .right {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--faded_bg_color);
+        backdrop-filter: blur(10px);
+        border-radius: 0 0 25px 25px;
+        padding-bottom: 20px;
+        display: none;
+        z-index: -1;
+        animation: fall 0.2s forwards;
+      }
 
-    .right.opened {
-      display: block;
-    }
+      .right.opened {
+        display: block;
+      }
 
-    .tabs .tab {
-      margin: 5px 0;
-      padding: 15px 0;
-      width: 100%;
-      text-align: center;
-    }
+      .tabs .tab {
+        margin: 5px 0;
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+      }
 
-    .toggle i {
-      display: block;
-      padding: 20px;
-      cursor: pointer;
-    }
+      .toggle i {
+        display: block;
+        padding: 20px;
+        cursor: pointer;
+      }
 
-    a button {
-      width: -moz-available;
+      a button {
+        width: -moz-available;
+      }
     }
   }
 `;
@@ -158,35 +159,7 @@ const StyledAside = styled.div`
 // const [opened, setOpened] = useState(false);
 State.init({ opened: false, currentClass: "tab" });
 
-// const [currentClass, setCurrentClass] = useState("tab");
-// const asideRef = document.getElementById("aside");
-
-// // Check the width and update the className
-// useEffect(() => {
-//   const div = asideRef.current;
-
-//   const updateClassBasedOnWidth = () => {
-//     const width = div.offsetWidth;
-
-//     if (width < 600) {
-//       setCurrentClass("mobile");
-//     } else if (width >= 600 && width < 970) {
-//       setCurrentClass("tab");
-//     } else {
-//       setCurrentClass("desktop");
-//     }
-//   };
-
-//   // Use ResizeObserver to watch for element size changes
-//   const resizeObserver = new ResizeObserver(updateClassBasedOnWidth);
-//   resizeObserver.observe(div);
-
-//   // Initial call to set class
-//   updateClassBasedOnWidth();
-
-//   // Cleanup
-//   return () => resizeObserver.disconnect();
-// }, []);
+// !!! TODO: Changge the style based on the element width instead od the windows width
 
 return (
   <StyledAside
