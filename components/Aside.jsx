@@ -76,7 +76,7 @@ const StyledAside = styled.div`
   }
 
   .tabs .tab {
-    margin: 0 15px;
+    margin: 0 10px;
     font-weight: 400;
     font-size: 16px;
     color: var(--light_background);
@@ -95,18 +95,110 @@ const StyledAside = styled.div`
 
   .toggle i {
     display: none;
+    color: var(--light_background);
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  /* Responsive (tab, mobile) */
+  &.tab,
+  &.mobile {
+    overflow: hidden;
+
+    &.opened {
+      border-radius: 25px 25px 0 0;
+      overflow: visible;
+    }
+
+    .right,
+    .tabs {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .right {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--faded_bg_color);
+      backdrop-filter: blur(10px);
+      border-radius: 0 0 25px 25px;
+      padding-bottom: 20px;
+      display: none;
+      z-index: -1;
+      animation: fall 0.2s forwards;
+    }
+
+    .right.opened {
+      display: block;
+    }
+
+    .tabs .tab {
+      margin: 5px 0;
+      padding: 15px 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .toggle i {
+      display: block;
+      padding: 20px;
+      cursor: pointer;
+    }
+
+    a button {
+      width: -moz-available;
+    }
   }
 `;
 
-const [opened, setOpened] = useState(false);
+// const [opened, setOpened] = useState(false);
+State.init({ opened: false, currentClass: "tab" });
+
+// const [currentClass, setCurrentClass] = useState("tab");
+// const asideRef = document.getElementById("aside");
+
+// // Check the width and update the className
+// useEffect(() => {
+//   const div = asideRef.current;
+
+//   const updateClassBasedOnWidth = () => {
+//     const width = div.offsetWidth;
+
+//     if (width < 600) {
+//       setCurrentClass("mobile");
+//     } else if (width >= 600 && width < 970) {
+//       setCurrentClass("tab");
+//     } else {
+//       setCurrentClass("desktop");
+//     }
+//   };
+
+//   // Use ResizeObserver to watch for element size changes
+//   const resizeObserver = new ResizeObserver(updateClassBasedOnWidth);
+//   resizeObserver.observe(div);
+
+//   // Initial call to set class
+//   updateClassBasedOnWidth();
+
+//   // Cleanup
+//   return () => resizeObserver.disconnect();
+// }, []);
+
 return (
-  <StyledAside className={`aside ${opened ? "opened" : "closed"}`}>
+  <StyledAside
+    id={"aside"}
+    className={`aside ${state.currentClass} ${
+      state.opened ? "opened" : "closed"
+    }`}
+  >
     <div className="logo">
       <Link to="/abnakore.near/widget/VoteChain">
         <h3>VoteChain</h3>
       </Link>
     </div>
-    <div className={`right ${opened ? "opened" : "closed"}`}>
+    <div className={`right ${state.opened ? "opened" : "closed"}`}>
       <div className="tabs" id="tabs">
         {props.objs.map((obj) =>
           !obj.handleClick ? (
@@ -129,7 +221,7 @@ return (
           )
         )}
       </div>
-      
+
       {props.button &&
         (props.button.handleClick ? (
           <Widget
@@ -154,8 +246,11 @@ return (
           </Link>
         ))}
     </div>
-    <div onClick={() => setOpened(!opened)} className="toggle">
-      <i>X</i>
+    <div
+      onClick={() => State.update({ opened: !state.opened })}
+      className="toggle"
+    >
+      {state.opened ? <i class="bi-x"></i> : <i class="bi-list"></i>}
     </div>
   </StyledAside>
 );
