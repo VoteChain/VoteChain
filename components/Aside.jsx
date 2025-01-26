@@ -46,6 +46,8 @@ const StyledAside = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 10px auto;
+  position: relative;
+  z-index: 100;
 
   .logo {
     font-size: 20px;
@@ -241,6 +243,7 @@ return (
                 handleClick: () =>
                   console.log(`${props.button.title} Button Clicked!!`),
                 theme: "primary",
+                scaleWhenHover: false,
               }}
             />
           </Link>
