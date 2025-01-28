@@ -115,7 +115,7 @@ const Wrapper = styled.div`
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
-    width: 100vw;
+    width: -moz-available;
 
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -190,6 +190,10 @@ const Wrapper = styled.div`
 return (
   <>
     {accountId ? (
+      //   <Widget
+      //     src="abnakore.near/widget/Wrapper"
+      //     props={{
+      //       body: (
       <Wrapper>
         <div className="main-body">
           <div className="body-contents">
