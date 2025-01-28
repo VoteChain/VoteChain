@@ -35,7 +35,8 @@ const Styled = styled.div`
     position: relative;
     /* For background animation */
     height: 100vh;
-    width: 100vw;
+    // width: 100%;
+    width: -moz-available;
     /* Full viewport height */
     text-align: center;
     overflow: hidden;
@@ -97,35 +98,35 @@ const Styled = styled.div`
     margin-top: 30px;
   }
 
-  .hero-buttons a {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin: 10px;
-    transition: all 0.3s ease-in-out;
-  }
+  // .hero-buttons a {
+  //   background-color: #007bff;
+  //   color: #fff;
+  //   padding: 10px 20px;
+  //   border: none;
+  //   text-decoration: none;
+  //   font-weight: bold;
+  //   display: inline-block;
+  //   margin: 10px;
+  //   transition: all 0.3s ease-in-out;
+  // }
 
-  .hero-buttons a:hover {
-    background-color: #0062cc;
-    transform: scale(1.1);
-  }
+  // .hero-buttons a:hover {
+  //   background-color: #0062cc;
+  //   transform: scale(1.1);
+  // }
 
-  .hero-buttons a:after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 2px;
-    background-color: #fff;
-    transition: width 0.3s ease-in-out;
-  }
+  // .hero-buttons a:after {
+  //   content: "";
+  //   display: block;
+  //   width: 0;
+  //   height: 2px;
+  //   background-color: #fff;
+  //   transition: width 0.3s ease-in-out;
+  // }
 
-  .hero-buttons a:hover:after {
-    width: 100%;
-  }
+  // .hero-buttons a:hover:after {
+  //   width: 100%;
+  // }
 `;
 
 return (
@@ -146,14 +147,29 @@ return (
         <div class="">
           <h2>Vote with confidence. Vote with power. Vote decentralized.</h2>
           <div class="hero-buttons">
-            <a href="#">Create a Vote</a>
-            <a href="#">Learn More</a>
+            <Link to="#">
+              <Widget
+                src="abnakore.near/widget/Button"
+                props={{
+                  title: "Create a Vote",
+                  handleClick: () => {},
+                  theme: "primary",
+                }}
+              />
+            </Link>
+            <Link to="#">
+              <Widget
+                src="abnakore.near/widget/Button"
+                props={{
+                  title: "Learn More",
+                  handleClick: () => {},
+                  theme: "primary",
+                }}
+              />
+            </Link>
           </div>
         </div>
       </div>
     </div>
   </Styled>
 );
-
-
-
