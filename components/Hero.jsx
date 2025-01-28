@@ -36,7 +36,8 @@ const Styled = styled.div`
   .hero {
     position: relative;
     /* For background animation */
-    height: 100vh;
+    padding: 200px;
+    // height: 100vh;
     // width: 100%;
     width: -moz-available;
     /* Full viewport height */
