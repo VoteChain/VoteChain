@@ -1,4 +1,6 @@
 const Styled = styled.div`
+  width: -moz-available;
+
   @keyframes glow {
     from {
       text-shadow: none;
