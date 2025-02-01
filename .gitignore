@@ -3,3 +3,7 @@ commands.txt
 .DS_Store
 .gitignore
 temp/
+colors.json
+context.json
+flags.json
+props.json
