@@ -1,0 +1,60 @@
+services:
+  smart_contracts:
+    platform: linux/amd64 # Force the service to run in x86_64 mode
+
+    container_name: vc_smart_contracts
+
+    build: ./smart_contracts
+
+    image: smart_contracts:vc
+
+    ports:
+      - "3030:3030"
+
+    volumes:
+      - ./smart_contracts:/contract
+
+    networks:
+      - vc_network
+
+  frontend:
+    container_name: react_app
+
+    build:
+      context: ./react_app
+
+    image: react_app:vc
+
+    command: npm run dev
+
+    ports:
+      - 5173:5173
+
+    env_file:
+      - ./react_app/.env
+
+    volumes:
+      - ./react_app/:/react
+      - node_modules:/react/node_modules
+
+    networks:
+      - vc_network
+
+    develop:
+      watch:
+        - path: ./react_app/package.json
+          action: rebuild
+        - path: ./react_app/package-lock.json
+          action: rebuild
+        - path: ./react_app/Dockerfile
+          action: rebuild
+
+    depends_on:
+      - smart_contracts
+
+volumes:
+  node_modules:
+
+networks:
+  vc_network:
+    driver: bridge
