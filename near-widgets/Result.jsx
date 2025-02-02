@@ -139,10 +139,8 @@ const [passcodeEntered, setPasscodeEntered] = useState("");
 function hash(text) {
   var hashed = "";
   for (var i = 0; i < text.length; i++) {
-    // console.log(text.charAt(i), "=", text.charCodeAt(i));
     hashed += text.charCodeAt(i);
   }
-  //   console.log(hashed);
   return hashed;
 }
 
