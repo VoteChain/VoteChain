@@ -1,0 +1,17 @@
+services:
+  smart_contracts:
+    platform: linux/amd64 # Force the service to run in x86_64 mode
+
+    build: .
+
+    container_name: vc_smart_contracts
+
+    image: smart_contracts:vc
+
+    # command: npm run test
+
+    ports:
+      - "3030:3030"
+
+    volumes:
+      - .:/contract
