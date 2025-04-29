@@ -21,7 +21,7 @@ function App() {
       <h1>VoteChain</h1>
       <p>A decentralized voting system.</p>
       <div className="card">
-        <h1>Comming soon!!!</h1>
+        <h1>Comming soon!!!!</h1>
       </div>
     </>
   );
