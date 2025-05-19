@@ -6,6 +6,7 @@ import "./all-votes.css";
 
 // Components
 import VoteCard from "../../components/VoteCard/VoteCard";
+import Aside from "../../components/Aside/Aside";
 
 function AllVotes() {
   const [allVotes, setAllVotes] = useState([
@@ -193,14 +194,41 @@ function AllVotes() {
       ],
     },
   ]);
+
+  const pages = [
+    {
+      name: "Voting Page",
+      link: `/Voting Page`,
+    },
+    {
+      name: "Result",
+      link: `/Result`,
+    },
+    {
+      name: "Admin Home",
+      link: `/Admin Home`,
+    },
+    {
+      name: "Manage Candidates",
+      link: `/Manage Candidates`,
+    },
+    {
+      name: "Mange Parties",
+      link: `/Mange Parties`,
+    },
+  ];
+
   return (
     <>
       <div className="all-votes">
-        {allVotes.map((vote) => (
-          <>
-            <VoteCard {...vote} />
-          </>
-        ))}
+        <div className="aside-div">
+          <Aside objs={pages} active="/" />
+        </div>
+        <div className="votes-list">
+          {allVotes.map((vote, i) => (
+            <VoteCard key={i} {...vote} />
+          ))}
+        </div>
       </div>
     </>
   );

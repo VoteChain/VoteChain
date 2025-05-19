@@ -42,29 +42,29 @@ function Aside({ objs, active }) {
       className={`aside ${currentClass} ${opened ? "opened" : "closed"}`}
     >
       <div className="logo">
-        <a href="/">
+        <Link to="/">
           <h3>VoteChain</h3>
-        </a>
+        </Link>
       </div>
       <div className={`right ${opened ? "opened" : "closed"}`}>
         <div className="tabs" id="tabs">
           {objs.map((obj) =>
             obj.type === "button" ? (
-              <a
+              <Link
                 key={obj.link}
-                href={obj.link}
+                to={obj.link}
                 className={`tab ${active === obj.link ? "active" : ""}`}
               >
                 <button>{obj.name}</button>
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 key={obj.link}
-                href={obj.link}
+                to={obj.link}
                 className={`tab ${active === obj.link ? "active" : ""}`}
               >
                 {obj.name}
-              </a>
+              </Link>
             )
           )}
         </div>

@@ -1,5 +1,17 @@
 .all-votes {
-  padding: 30px;
+  padding: 20px 20px;
+}
+.all-votes .aside-div {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.all-votes .votes-list {
+  padding: 100px 0px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 20px;
