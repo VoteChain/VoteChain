@@ -11,6 +11,8 @@ import DetailCard from "../DetailCard/DetailCard";
 import { TiMediaPlay } from "react-icons/ti";
 import { GoPeople } from "react-icons/go";
 import { FaEnvelopeOpenText } from "react-icons/fa";
+import { SlLock, SlLockOpen } from "react-icons/sl";
+import { FaRegClock } from "react-icons/fa6";
 
 function VoteCard() {
   return (
@@ -47,12 +49,16 @@ function VoteCard() {
       </div>
       <div className="footer">
         <div className="foot-content">
+          <p>
+            <FaRegClock />
             <span>Duration: May 22nd, 2025 8:30AM - May 30, 2025 8:30AM</span>
-            <div className="icons">
-              <TiMediaPlay />
-              <GoPeople />
-              <FaEnvelopeOpenText />
-            </div>
+          </p>
+          <div className="icons">
+            <SlLockOpen title={`Locked`} />
+            {/* <GoPeople /> */}
+            {/* <FaEnvelopeOpenText /> */}
+            {/* <SlLock /> */}
+          </div>
         </div>
       </div>
     </div>

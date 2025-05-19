@@ -3,8 +3,8 @@
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 30px;
-  padding-bottom: 50px;
+  padding: 15px;
+  padding-bottom: 40px;
 }
 .vote-card .heading {
   display: flex;
@@ -13,13 +13,9 @@
   align-items: flex-start;
 }
 .vote-card .heading .title h3 {
-  padding: 0;
-  margin: 0;
   font-size: 20px;
 }
 .vote-card .heading .title p {
-  padding: 0;
-  margin: 0;
   font-size: 15px;
   color: #777;
 }
@@ -58,15 +54,19 @@
   border-top: 2px solid var(--color-gray-300);
 }
 .vote-card .footer .foot-content {
-  padding: 10px 30px;
+  padding: 10px 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
 }
-.vote-card .footer .foot-content span {
+.vote-card .footer .foot-content p {
   font-size: 14px;
   color: var(--color-gray-600);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 .vote-card .footer .foot-content .icons {
   display: flex;
@@ -75,7 +75,7 @@
   align-items: center;
   gap: 7px;
 }
-.vote-card .footer .foot-content .icons svg {
+.vote-card .footer .foot-content svg {
   color: var(--color-gray-600);
   font-size: 15px;
 }
