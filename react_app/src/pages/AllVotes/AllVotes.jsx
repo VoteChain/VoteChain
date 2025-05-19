@@ -12,6 +12,7 @@ function AllVotes() {
     <>
       <div className="all-votes">
         <VoteCard />
+        <VoteCard />
       </div>
     </>
   );

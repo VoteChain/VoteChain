@@ -1,3 +1,6 @@
 .all-votes {
     padding: 30px;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 20px;
 }
