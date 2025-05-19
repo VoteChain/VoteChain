@@ -12,19 +12,40 @@ import { TiMediaPlay } from "react-icons/ti";
 import { GoPeople } from "react-icons/go";
 import { FaEnvelopeOpenText } from "react-icons/fa";
 import { SlLock, SlLockOpen } from "react-icons/sl";
-import { FaRegClock } from "react-icons/fa6";
+import { FaRegClock, FaPlayCircle, FaCheckCircle } from "react-icons/fa";
 
-function VoteCard() {
+function VoteCard({
+  name,
+  desc,
+  role,
+  creator,
+  openTime,
+  closeTime,
+  createdOn,
+  limit,
+  opened,
+  passcode,
+  candidates,
+  parties,
+  voters,
+  status,
+}) {
+  const statusIcon = {
+    upcoming: <FaRegClock aria-label="Not started" />,
+    active: <FaPlayCircle aria-label="Ongoing" />,
+    ended: <FaCheckCircle aria-label="Ended" />,
+  };
+
   return (
     <div className="vote-card">
       <div className="heading">
         <div className="title">
-          <h3>2025 Precidential</h3>
-          <p>abnakore.near</p>
+          <h3>{name}</h3>
+          <p>{creator}</p>
         </div>
-        <div className="tag">
-          <TiMediaPlay />
-          <p>Ongoing</p>
+        <div className={`tag ${status}`}>
+          {statusIcon[status]}
+          <p>{status.charAt(0).toUpperCase().concat(status.substr(1))}</p>
         </div>
       </div>
       <div className="details">
@@ -32,7 +53,7 @@ function VoteCard() {
           icon={<GoPeople />}
           title={"Total Candidates"}
           theme={"green"}
-          amount={"$5,000"}
+          amount={candidates.length}
           description={
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, culpa?"
           }
@@ -41,7 +62,7 @@ function VoteCard() {
           icon={<FaEnvelopeOpenText />}
           title={"Total Votes Casted"}
           theme={"blue"}
-          amount={"43"}
+          amount={voters.length}
           description={
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, culpa?"
           }

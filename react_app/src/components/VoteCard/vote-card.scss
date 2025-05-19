@@ -43,6 +43,24 @@
                 font-size: 20px;
                 color: oklch(62.7% .194 149.214);
             }
+
+            &.active {
+                svg {
+                    color: var(--color-primary-500);
+                }
+            }
+
+            &.upcoming {
+                svg {
+                    color: var(--color-secondary-500);
+                }
+            }
+
+            &.ended {
+                svg {
+                    color: var(--color-secondary-600);
+                }
+            }
         }
     }
 

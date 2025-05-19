@@ -1,6 +1,7 @@
 .all-votes {
     padding: 30px;
     display: grid;
-    grid-auto-flow: column;
+    // grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 20px;
 }
