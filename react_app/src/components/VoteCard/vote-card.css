@@ -1,0 +1,43 @@
+.vote-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 30px;
+}
+.vote-card .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.vote-card .heading .title h3 {
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+}
+.vote-card .heading .title p {
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  color: #777;
+}
+.vote-card .heading .tag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: #ededed;
+  border: 1px solid oklch(92.8% 0.006 264.531);
+  border-radius: 50px;
+  padding: 5px 10px;
+}
+.vote-card .heading .tag p {
+  font-size: 15px;
+}
+.vote-card .heading .tag svg {
+  font-size: 20px;
+  color: oklch(62.7% 0.194 149.214);
+}
+
+/*# sourceMappingURL=vote-card.css.map */

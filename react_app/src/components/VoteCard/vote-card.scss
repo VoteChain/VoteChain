@@ -1,0 +1,50 @@
+.vote-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 30px;
+
+    .heading {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .title {
+            h3 {
+                padding: 0;
+                margin: 0;
+                font-size: 20px;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 15px;
+                color: #777;
+            }
+        }
+
+        .tag {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+
+            background-color: #ededed;
+            border: 1px solid oklch(92.8% .006 264.531);
+            border-radius: 50px;
+            padding: 5px 10px;
+
+            p {
+                font-size: 15px;
+            }
+
+            svg {
+                font-size: 20px;
+                color: oklch(62.7% .194 149.214);
+            }
+        }
+    }
+}
