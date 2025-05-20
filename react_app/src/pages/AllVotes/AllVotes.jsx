@@ -8,7 +8,12 @@ import "./all-votes.css";
 import VoteCard from "../../components/VoteCard/VoteCard";
 import Aside from "../../components/Aside/Aside";
 
+// Others
+import { IoIosSearch } from "react-icons/io";
+import { HiOutlineFilter } from "react-icons/hi";
+
 function AllVotes() {
+  // Get All Votes
   const [allVotes, setAllVotes] = useState([
     {
       name: "Best Campus Food Spot",
@@ -195,6 +200,7 @@ function AllVotes() {
     },
   ]);
 
+  // Pages in Navbar
   const pages = [
     {
       name: "Voting Page",
@@ -218,12 +224,106 @@ function AllVotes() {
     },
   ];
 
+  // Using state
+  const [state, setState] = useState({ showFilterModal: false });
+
+  // Functions
+  // Toggle filter modal
+  const toggleFilterModal = () =>
+    setState({ ...state, showFilterModal: !state.showFilterModal });
+
   return (
     <>
       <div className="all-votes">
         <div className="aside-div">
           <Aside objs={pages} active="/" />
         </div>
+
+        <div className="quick-actions">
+          <div className="search-bar">
+            <IoIosSearch className="icon" />
+            <input placeholder="Search" type="search" className="input" />
+          </div>
+          <div className="filter-div">
+            <button className="filter-btn" onClick={toggleFilterModal}>
+              <HiOutlineFilter />
+              Filter
+              <span className="filter-badge">3</span>
+            </button>
+
+            <div
+              className={`filter-modal ${state.showFilterModal && "show"}`}
+              onClick={toggleFilterModal}
+            >
+              <div
+                className="modal-content"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="modal-header">
+                  <h3>Manage Filters</h3>
+                  {/* <span className="close" onClick={toggleFilterModal}>
+                    &times;
+                  </span> */}
+                </div>
+
+                <div className="active-filters">
+                  <div className="filter-item">
+                    <div>Key:value</div>
+                    <span className="close" onClick={() => {}}>
+                      &times;
+                    </span>
+                  </div>
+                  <div className="filter-item">
+                    <div>Key:value</div>
+                    <span className="close" onClick={() => {}}>
+                      &times;
+                    </span>
+                  </div>
+                  <div className="filter-item">
+                    <div>Key:value</div>
+                    <span className="close" onClick={() => {}}>
+                      &times;
+                    </span>
+                  </div>
+                </div>
+
+                <div className="add-filter">
+                  <select id="filterType">
+                    <option value="category">Created By</option>
+                    <option value="price">Security</option>
+                    <option value="status">Status</option>
+                  </select>
+                  {1 ? (
+                    <input
+                      type="text"
+                      id="filterValue"
+                      placeholder="Enter value"
+                    />
+                  ) : (
+                    <select id="filterType">
+                      <option value="category">Created By</option>
+                      <option value="price">Security</option>
+                      <option value="status">Status</option>
+                    </select>
+                  )}
+                  <button className="white-button" onClick="addFilter()">
+                    Add Filter
+                  </button>
+                </div>
+
+                <div className="modal-footer">
+                  <button className="white-button" onClick="clearAllFilters()">
+                    Clear All
+                  </button>
+                  <button className="white-button" onClick={toggleFilterModal}>
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="votes-list">
           {allVotes.map((vote, i) => (
             <VoteCard key={i} {...vote} />
