@@ -7,7 +7,7 @@
   }
 }
 .aside {
-  --faded_bg_color: #8889;
+  --faded_bg_color: #ccc9;
   width: calc(100% - 40px);
   padding: 5px 20px;
   background-color: var(--faded_bg_color);

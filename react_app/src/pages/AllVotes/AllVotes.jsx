@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import "./all-votes.css";
 
 // Components
-import VoteCard from "../../components/VoteCard/VoteCard";
+import VoteCard from "../../containers/VoteCard/VoteCard";
 import Aside from "../../components/Aside/Aside";
 
 // Others
