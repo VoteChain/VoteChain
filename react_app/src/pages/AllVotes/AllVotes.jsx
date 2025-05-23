@@ -306,13 +306,13 @@ function AllVotes() {
                       <option value="status">Status</option>
                     </select>
                   )}
-                  <button className="white-button" onClick="addFilter()">
+                  <button className="white-button" onClick={() => {}}>
                     Add Filter
                   </button>
                 </div>
 
                 <div className="modal-footer">
-                  <button className="white-button" onClick="clearAllFilters()">
+                  <button className="white-button" onClick={() => {}}>
                     Clear All
                   </button>
                   <button className="white-button" onClick={toggleFilterModal}>

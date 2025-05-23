@@ -78,7 +78,7 @@ function Aside({ objs, active }) {
       </div>
       <div onClick={() => setOpened(!opened)} className="toggle">
         {/* Upd */}
-        {opened ? <i class="bi-x"></i> : <i class="bi-list"></i>}
+        {opened ? <i className="bi-x"></i> : <i className="bi-list"></i>}
       </div>
     </div>
   );

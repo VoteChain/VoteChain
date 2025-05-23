@@ -35,29 +35,29 @@ function Hero() {
 
   return (
     <>
-      <div class="hero">
-        <div class="hero-background">
-          <div class="overlay"></div>
-          <div class="bg-video"></div>
+      <div className="hero">
+        <div className="hero-background">
+          <div className="overlay"></div>
+          <div className="bg-video"></div>
         </div>
 
-        <div class="hero-content">
+        <div className="hero-content">
           <div className="aside-div">
             <div className="cont">
               <Aside objs={pages} active="/" />
             </div>
           </div>
-          <div class="headings">
+          <div className="headings">
             <img
               src="https://ipfs.near.social/ipfs/bafkreib3x3txsa57lsllu5v5esvajlpkhslgzkzqp4gxnsyqbuhgwgrixy"
               alt="logo"
             />
-            <h1 class="headline">VoteChain</h1>
+            <h1 className="headline">VoteChain</h1>
           </div>
 
-          <div class="">
+          <div className="">
             <h2>Vote with confidence. Vote with power. Vote decentralized.</h2>
-            <div class="hero-buttons">
+            <div className="hero-buttons">
               <Button
                 title={"Create a Vote"}
                 handleClick={() => console.log("Create a Vote")}
