@@ -54,18 +54,14 @@ function VoteCard({
           title={"Total Candidates"}
           theme={"green"}
           amount={candidates.length}
-          description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, culpa?"
-          }
+          description={"Number of individuals contesting in this vote."}
         />
         <DetailCard
           icon={<FaEnvelopeOpenText />}
           title={"Total Votes Casted"}
           theme={"blue"}
           amount={voters.length}
-          description={
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, culpa?"
-          }
+          description={"Total number of submitted votes in this poll."}
         />
       </div>
       <div className="footer">
@@ -75,7 +71,12 @@ function VoteCard({
             <span>Duration: May 22nd, 2025 8:30AM - May 30, 2025 8:30AM</span>
           </p>
           <div className="icons">
-            <SlLockOpen title={`Locked`} />
+            {passcode ? (
+              <SlLock title={`Locked`} />
+            ) : (
+              <SlLockOpen title={`Public`} />
+            )}
+
             {/* <GoPeople /> */}
             {/* <FaEnvelopeOpenText /> */}
             {/* <SlLock /> */}
