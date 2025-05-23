@@ -13,14 +13,15 @@ import { GoPeople } from "react-icons/go";
 import { FaEnvelopeOpenText } from "react-icons/fa";
 import { SlLock, SlLockOpen } from "react-icons/sl";
 import { FaRegClock, FaPlayCircle, FaCheckCircle } from "react-icons/fa";
+import { formatDate } from "../../scripts/functions";
 
 function VoteCard({
   name,
   desc,
   role,
   creator,
-  openTime,
-  closeTime,
+  openOn,
+  closeOn,
   createdOn,
   limit,
   opened,
@@ -68,7 +69,9 @@ function VoteCard({
         <div className="foot-content">
           <p>
             <FaRegClock />
-            <span>Duration: May 22nd, 2025 8:30AM - May 30, 2025 8:30AM</span>
+            <span>
+              Duration: {formatDate(openOn)} - {formatDate(closeOn)}
+            </span>
           </p>
           <div className="icons">
             {passcode ? (
