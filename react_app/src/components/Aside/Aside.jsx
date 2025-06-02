@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./aside.css";
-import Button from "../Button/Button";
 
-function Aside({ objs, active }) {
+// Components
+import Button from "../Button/Button";
+import { IoClose } from "react-icons/io5";
+import { RiMenu4Fill } from "react-icons/ri";
+
+function Aside({ objs, active, buttonConf }) {
   const [opened, setOpened] = useState(false);
 
   const [currentClass, setCurrentClass] = useState("");
@@ -68,17 +72,26 @@ function Aside({ objs, active }) {
             )
           )}
         </div>
-        <div className="others">
-          <Button
-            title={"Get Started"}
-            handleClick={() => console.log("Get started")}
-            theme={"primary"}
-          />
-        </div>
+        {buttonConf && (
+          <div className="others">
+            <Button
+              title={buttonConf.title}
+              handleClick={buttonConf.handleClick}
+              theme={"primary"}
+            />
+          </div>
+        )}
       </div>
       <div onClick={() => setOpened(!opened)} className="toggle">
-        {/* Upd */}
-        {opened ? <i className="bi-x"></i> : <i className="bi-list"></i>}
+        {opened ? (
+          <i>
+            <IoClose />
+          </i>
+        ) : (
+          <i>
+            <RiMenu4Fill />
+          </i>
+        )}
       </div>
     </div>
   );

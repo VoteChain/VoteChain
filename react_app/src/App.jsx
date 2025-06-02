@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 // Others
 import { Route, Routes } from "react-router-dom";
 import AllVotes from "./pages/AllVotes/AllVotes";
+import VotingPage from "./pages/Vote/Vote";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,6 +19,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/voting page" element={<AllVotes />} />
+
+        <Route path="/vote" element={<VotingPage />} />
       </Routes>
     </>
   );

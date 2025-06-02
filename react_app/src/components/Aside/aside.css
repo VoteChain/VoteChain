@@ -24,7 +24,7 @@
 }
 .logo a {
   text-decoration: none;
-  color: var(--light_background);
+  color: var(--color-gray-800);
 }
 
 .right {
@@ -45,13 +45,14 @@
   margin: 0 10px;
   font-weight: 400;
   font-size: 16px;
-  color: var(--light_background);
+  color: var(--color-gray-700);
   text-decoration: none;
+  padding: 15px 0;
 }
 
 .tabs a:hover,
 .tabs a.active {
-  color: var(--light_button_primary);
+  color: var(--color-secondary-600);
 }
 
 .others {
@@ -60,7 +61,7 @@
 
 .toggle i {
   display: none;
-  color: var(--light_background);
+  color: var(--color-gray-800);
   font-size: 30px;
   cursor: pointer;
 }
@@ -105,11 +106,12 @@
   margin: 5px 0;
   padding: 15px 0;
   width: 100%;
+  text-align: center;
 }
 .aside.tab .toggle i,
 .aside.mobile .toggle i {
   display: block;
-  padding: 20px;
+  padding: 10px;
 }
 .aside.tab .others button,
 .aside.mobile .others button {
@@ -118,7 +120,7 @@
 
 /* --faded_bg_color: #8889;
 // Light theme colors
---light_background: #FFFFFF;
+--color-gray-700: #FFFFFF;
 --light_text_primary: #333333;
 --light_text_secondary: #666666;
 --light_button_primary: #4CAF50;
@@ -170,7 +172,7 @@ margin: 10px auto;
 
     a {
         text-decoration: none;
-        color: var(--light_background);
+        color: var(--color-gray-700);
     }
 
     h3 {
@@ -197,7 +199,7 @@ margin: 10px auto;
     margin: 0 15px;
     font-weight: 400;
     font-size: 16px;
-    color: var(--light_background);
+    color: var(--color-gray-700);
     text-decoration: none;
 }
 

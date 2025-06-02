@@ -15,6 +15,7 @@ export const formatDate = (isoString) => {
 
   // Add ordinal suffix to the day (e.g., 22 → 22nd)
   const day = date.getDate();
+
   const suffix = ((d) => {
     if (d > 3 && d < 21) return "th";
     switch (d % 10) {
@@ -32,6 +33,65 @@ export const formatDate = (isoString) => {
   return formatted.replace(`${day}`, `${day}${suffix}`);
 };
 
-// Example:
-// const result = formatDate("2025-05-22T08:30:00Z");
-// console.log(result); // "May 22nd, 2025, 8:30 AM"
+export const getTimeRemaining = (targetDate, options = {}) => {
+  // Parse input date (handle both Date objects and ISO strings)
+  const endDate =
+    typeof targetDate === "string"
+      ? new Date(targetDate)
+      : new Date(targetDate);
+  const now = new Date();
+
+  // Validate input
+  if (isNaN(endDate.getTime())) {
+    throw new Error("Invalid target date");
+  }
+
+  // Check if date is in the past
+  if (endDate <= now) {
+    return "Ended";
+  }
+
+  // Calculate time difference in milliseconds
+  const diff = endDate - now;
+
+  // Default options
+  const { showSeconds = diff < 3600000, precision = 2 } = options;
+
+  // Calculate time units
+  const timeUnits = [
+    { value: Math.floor(diff / (1000 * 60 * 60 * 24 * 365)), unit: "year" },
+    {
+      value: Math.floor((diff / (1000 * 60 * 60 * 24 * 30)) % 12),
+      unit: "month",
+    },
+    {
+      value: Math.floor((diff / (1000 * 60 * 60 * 24 * 7)) % 52),
+      unit: "week",
+    },
+    { value: Math.floor((diff / (1000 * 60 * 60 * 24)) % 7), unit: "day" },
+    { value: Math.floor((diff / (1000 * 60 * 60)) % 24), unit: "hour" },
+    { value: Math.floor((diff / (1000 * 60)) % 60), unit: "minute" },
+    { value: Math.floor((diff / 1000) % 60), unit: "second" },
+  ];
+
+  // Filter relevant units based on showSeconds and precision
+  const relevantUnits = timeUnits
+    .filter((unit, index) => {
+      // Always show the first non-zero unit
+      if (index === 0 && unit.value > 0) return true;
+      // Show seconds only if enabled
+      if (unit.unit === "second" && !showSeconds) return false;
+      // Show only up to the specified precision
+      return index < precision + timeUnits.findIndex((u) => u.value > 0);
+    })
+    .filter((unit) => unit.value > 0); // Remove zero-value units
+
+  // Format the output string
+  if (relevantUnits.length === 0) {
+    return "Less than a minute";
+  }
+
+  return relevantUnits
+    .map((unit) => `${unit.value} ${unit.unit}${unit.value !== 1 ? "s" : ""}`)
+    .join(", ");
+};
