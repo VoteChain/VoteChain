@@ -11,11 +11,13 @@ import Aside from "../../components/Aside/Aside";
 // Others
 import { IoIosSearch } from "react-icons/io";
 import { HiOutlineFilter } from "react-icons/hi";
-import { useSearchParams } from "react-router-dom";
+import { Router, useNavigate, useSearchParams } from "react-router-dom";
 
 function AllVotes() {
   // Get search Params
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   // Get All Votes
   const [allVotes, setAllVotes] = useState([
@@ -183,7 +185,12 @@ function AllVotes() {
           <Aside
             objs={pages}
             active={`/Voting Page?tab=${state.tab}`}
-            buttonConf={{ title: "Create new poll", handleClick: () => {} }}
+            buttonConf={{
+              title: "Create new poll",
+              handleClick: () => {
+                navigate("/create"); // Redirect to create vote page
+              },
+            }}
           />
         </div>
 

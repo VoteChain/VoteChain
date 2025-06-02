@@ -11,6 +11,7 @@ import { Route, Routes } from "react-router-dom";
 import AllVotes from "./pages/AllVotes/AllVotes";
 import VotingPage from "./pages/Vote/Vote";
 import ResultsPage from "./pages/Result/Result";
+import CreateVotePage from "./pages/CreateVote/CreateVote";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,6 +26,8 @@ function App() {
 
         <Route path="/vote/:voteId" element={<VotingPage />} />
         <Route path="/vote/:voteId/result" element={<ResultsPage />} />
+
+        <Route path="/create" element={<CreateVotePage />} />
       </Routes>
     </>
   );
