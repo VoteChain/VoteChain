@@ -105,7 +105,7 @@ function VoteCard({
     <div className="vote-card">
       <div className="vote-card-header">
         <div className="vote-info">
-          <Link to={`/vote/${1}`}>
+          <Link to={`/vote`}>
             <h3 className="vote-title">{name}</h3>
           </Link>
           <Link to={`https://near.social/${creator}`}>
