@@ -18,9 +18,11 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/voting page" element={<AllVotes />} />
 
-        <Route path="/vote" element={<VotingPage />} />
+        <Route path="/voting page" element={<AllVotes />} />
+        <Route path="/votes" element={<AllVotes />} />
+
+        <Route path="/vote/:voteId" element={<VotingPage />} />
       </Routes>
     </>
   );

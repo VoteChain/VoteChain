@@ -31,6 +31,7 @@ import {
 import { Link } from "react-router-dom";
 
 function VoteCard({
+  id = 1,
   name,
   desc,
   role,
@@ -105,10 +106,10 @@ function VoteCard({
     <div className="vote-card">
       <div className="vote-card-header">
         <div className="vote-info">
-          <Link to={`/vote`}>
+          <Link to={`/vote/${id}`}>
             <h3 className="vote-title">{name}</h3>
           </Link>
-          <Link to={`https://near.social/${creator}`}>
+          <Link target="_blank" to={`https://near.social/${creator}`}>
             <p className="vote-desc">{creator}</p>
           </Link>
         </div>

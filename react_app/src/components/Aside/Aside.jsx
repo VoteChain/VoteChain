@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import { IoClose } from "react-icons/io5";
 import { RiMenu4Fill } from "react-icons/ri";
 
-function Aside({ objs, active, buttonConf }) {
+function Aside({ objs, showLogo = true, active, buttonConf }) {
   const [opened, setOpened] = useState(false);
 
   const [currentClass, setCurrentClass] = useState("");
@@ -20,9 +20,9 @@ function Aside({ objs, active, buttonConf }) {
     const updateClassBasedOnWidth = () => {
       const width = div.offsetWidth;
 
-      if (width < 600) {
+      if (width < 500) {
         setCurrentClass("mobile");
-      } else if (width >= 600 && width < 970) {
+      } else if (width >= 500 && width < 570) {
         setCurrentClass("tab");
       } else {
         setCurrentClass("desktop");
@@ -45,11 +45,13 @@ function Aside({ objs, active, buttonConf }) {
       ref={asideRef}
       className={`aside ${currentClass} ${opened ? "opened" : "closed"}`}
     >
-      <div className="logo">
-        <Link to="/">
-          <h3>VoteChain</h3>
-        </Link>
-      </div>
+      {showLogo && (
+        <div className="logo">
+          <Link to="/">
+            <h3>VoteChain</h3>
+          </Link>
+        </div>
+      )}
       <div className={`right ${opened ? "opened" : "closed"}`}>
         <div className="tabs" id="tabs">
           {objs.map((obj) =>

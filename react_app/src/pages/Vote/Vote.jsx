@@ -12,6 +12,7 @@ import {
 
 import "./vote.css";
 import Aside from "../../components/Aside/Aside";
+import VoteOption from "../../components/VoteOption/VoteOption";
 
 // Mock data - replace with your actual data source
 const mockVotes = {
@@ -62,9 +63,19 @@ const VotingPage = () => {
   return (
     <div className="voting-page">
       <Aside
-        objs={[]}
-        active={`/Voting Page?tab=`}
-        buttonConf={{ title: "Create new poll", handleClick: () => {} }}
+        objs={[
+          {
+            name: "Vote page",
+            link: `/vote/${voteId}`,
+          },
+          {
+            name: "Result",
+            link: `/vote/${voteId}/result`,
+          },
+        ]}
+        active={`/vote/${voteId}`}
+        showLogo={false}
+        // buttonConf={{ title: "Create new poll", handleClick: () => {} }}
       />
       <div className="vote-header">
         <div className="vote-meta">
@@ -118,38 +129,24 @@ const VotingPage = () => {
           <div className="vote-options">
             {selectedTab === "candidates"
               ? vote.candidates.map((candidate) => (
-                  <div
+                  <VoteOption
                     key={candidate.id}
-                    className={`vote-option ${
-                      selectedOption === candidate.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedOption(candidate.id)}
-                  >
-                    <div className="option-content">
-                      <h3>{candidate.name}</h3>
-                      <p>{candidate.party}</p>
-                    </div>
-                    {selectedOption === candidate.id && (
-                      <div className="selected-indicator"></div>
-                    )}
-                  </div>
+                    id={candidate.id}
+                    title={candidate.name}
+                    subtitle={candidate.party}
+                    isSelected={selectedOption === candidate.id}
+                    onSelect={setSelectedOption}
+                  />
                 ))
               : vote.parties.map((party) => (
-                  <div
+                  <VoteOption
                     key={party.id}
-                    className={`vote-option ${
-                      selectedOption === party.id ? "selected" : ""
-                    }`}
-                    onClick={() => setSelectedOption(party.id)}
-                  >
-                    <div className="option-content">
-                      <h3>{party.name}</h3>
-                      <p>All party candidates</p>
-                    </div>
-                    {selectedOption === party.id && (
-                      <div className="selected-indicator"></div>
-                    )}
-                  </div>
+                    id={party.id}
+                    title={party.name}
+                    subtitle="All party candidates"
+                    isSelected={selectedOption === party.id}
+                    onSelect={setSelectedOption}
+                  />
                 ))}
           </div>
 
