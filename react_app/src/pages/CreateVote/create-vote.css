@@ -6,12 +6,10 @@
   font-family: "Inter", sans-serif;
   color: var(--color-gray-800);
 }
-
-.create-header {
+.create-vote-page .create-header {
   margin-bottom: 2rem;
 }
-
-.create-header h1 {
+.create-vote-page .create-header h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
   display: flex;
@@ -19,19 +17,16 @@
   gap: 0.8rem;
   color: var(--color-primary-700);
 }
-
-.create-header p {
+.create-vote-page .create-header p {
   color: var(--color-gray-600);
 }
-
-.progress-steps {
+.create-vote-page .progress-steps {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
   position: relative;
 }
-
-.progress-steps::before {
+.create-vote-page .progress-steps::before {
   content: "";
   position: absolute;
   top: 20px;
@@ -41,16 +36,14 @@
   background: var(--color-gray-200);
   z-index: 1;
 }
-
-.step {
+.create-vote-page .progress-steps .step {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   z-index: 2;
 }
-
-.step span {
+.create-vote-page .progress-steps .step span {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -63,53 +56,45 @@
   margin-bottom: 0.5rem;
   border: 3px solid white;
 }
-
-.step p {
+.create-vote-page .progress-steps .step p {
   font-size: 0.9rem;
   color: var(--color-gray-600);
   text-align: center;
 }
-
-.step.active span {
+.create-vote-page .progress-steps .step.active span {
   background: var(--color-primary-600);
   color: white;
 }
-
-.step.active p {
+.create-vote-page .progress-steps .step.active p {
   color: var(--color-primary-700);
   font-weight: 500;
 }
-
-.form-step {
+.create-vote-page .form-step {
   background: white;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-
-.form-step h2 {
+.create-vote-page .form-step h2 {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: var(--color-primary-700);
 }
-
-.form-group {
+.create-vote-page .form-group {
   margin-bottom: 1.5rem;
 }
-
-.form-group label {
+.create-vote-page .form-group label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--color-gray-700);
 }
-
-.form-group input[type=text],
-.form-group input[type=password],
-.form-group input[type=datetime-local],
-.form-group select,
-.form-group textarea {
+.create-vote-page .form-group input[type=text],
+.create-vote-page .form-group input[type=password],
+.create-vote-page .form-group input[type=datetime-local],
+.create-vote-page .form-group select,
+.create-vote-page .form-group textarea {
   width: 100%;
   padding: 0.8rem 1rem;
   border: 1px solid var(--color-gray-300);
@@ -117,29 +102,25 @@
   font-size: 1rem;
   transition: border-color 0.2s;
 }
-
-.form-group input[type=text]:focus,
-.form-group input[type=password]:focus,
-.form-group input[type=datetime-local]:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.create-vote-page .form-group input[type=text]:focus,
+.create-vote-page .form-group input[type=password]:focus,
+.create-vote-page .form-group input[type=datetime-local]:focus,
+.create-vote-page .form-group select:focus,
+.create-vote-page .form-group textarea:focus {
   outline: none;
   border-color: var(--color-primary-500);
   box-shadow: 0 0 0 3px rgba(111, 92, 255, 0.1);
 }
-
-.form-group textarea {
+.create-vote-page .form-group textarea {
   resize: vertical;
   min-height: 100px;
 }
-
-.toggle-options {
+.create-vote-page .toggle-options {
   display: flex;
   gap: 1rem;
   margin-top: 0.5rem;
 }
-
-.option-btn {
+.create-vote-page .toggle-options .option-btn {
   flex: 1;
   display: flex;
   align-items: center;
@@ -152,106 +133,96 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-
-.option-btn:hover {
+.create-vote-page .toggle-options .option-btn:hover {
   background: var(--color-gray-200);
 }
-
-.option-btn.active {
+.create-vote-page .toggle-options .option-btn.active {
   background: var(--color-primary-100);
   color: var(--color-primary-700);
   border-color: var(--color-primary-200);
 }
-
-.candidate-row,
-.party-row {
+.create-vote-page .candidate-row,
+.create-vote-page .party-row {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   gap: 1rem;
   margin-bottom: 1rem;
   align-items: flex-end;
 }
-
-.remove-btn {
-  width: 40px;
-  height: 40px;
+.create-vote-page .remove-btn,
+.create-vote-page .add-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-gray-100);
-  border: 1px solid var(--color-gray-300);
   border-radius: 8px;
   cursor: pointer;
-  color: var(--color-gray-600);
   transition: all 0.2s;
 }
-
-.remove-btn:hover {
+.create-vote-page .remove-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-600);
+}
+.create-vote-page .remove-btn:hover {
   background: var(--color-gray-200);
   color: #ff4444;
 }
-
-.remove-btn:disabled {
+.create-vote-page .remove-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-.add-btn {
-  display: flex;
-  align-items: center;
+.create-vote-page .add-btn {
   gap: 0.5rem;
   padding: 0.7rem 1.2rem;
   background: var(--color-gray-100);
   border: 1px solid var(--color-gray-300);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
   margin-top: 1rem;
 }
-
-.add-btn:hover {
+.create-vote-page .add-btn:hover {
   background: var(--color-gray-200);
 }
-
-.date-inputs {
+.create-vote-page .date-inputs {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
-
-.date-group {
+.create-vote-page .date-group {
   position: relative;
   display: flex;
   align-items: center;
 }
-
-.date-group svg {
+.create-vote-page .date-group svg {
   position: absolute;
   left: 12px;
   color: var(--color-gray-500);
 }
-
-.date-group input {
+.create-vote-page .date-group input {
   padding-left: 40px !important;
 }
-
-.date-group span {
+.create-vote-page .date-group span {
   position: absolute;
   left: 40px;
   top: -20px;
   font-size: 0.8rem;
   color: var(--color-gray-500);
 }
-
-.checkbox-label {
+.create-vote-page .checkbox-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   user-select: none;
 }
-
-.checkbox-custom {
+.create-vote-page .checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.create-vote-page .checkbox-label .checkbox-custom {
   width: 18px;
   height: 18px;
   border: 2px solid var(--color-gray-300);
@@ -261,125 +232,105 @@
   justify-content: center;
   transition: all 0.2s;
 }
-
-.checkbox-label input:checked ~ .checkbox-custom {
+.create-vote-page .checkbox-label input:checked ~ .checkbox-custom {
   background: var(--color-primary-500);
   border-color: var(--color-primary-500);
 }
-
-.checkbox-label input:checked ~ .checkbox-custom::after {
+.create-vote-page .checkbox-label input:checked ~ .checkbox-custom::after {
   content: "✓";
   color: white;
   font-size: 0.7rem;
 }
-
-.checkbox-label input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.passcode-input {
+.create-vote-page .passcode-input {
   margin-top: 1rem;
 }
-
-.review-step {
+.create-vote-page .review-step {
   padding: 2rem;
 }
-
-.review-section {
+.create-vote-page .review-step .review-section {
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-gray-200);
 }
-
-.review-section h3 {
+.create-vote-page .review-step .review-section h3 {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   color: var(--color-primary-600);
 }
-
-.review-item {
+.create-vote-page .review-step .review-section .review-item {
   margin-bottom: 0.8rem;
 }
-
-.review-list {
+.create-vote-page .review-step .review-section .review-list {
   list-style-type: none;
   padding-left: 0;
 }
-
-.review-list li {
+.create-vote-page .review-step .review-section .review-list li {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--color-gray-100);
 }
-
-.form-navigation {
+.create-vote-page .form-navigation {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
 }
-
-.nav-btn {
+.create-vote-page .form-navigation .nav-btn {
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
-
-.prev-btn {
+.create-vote-page .form-navigation .prev-btn {
   background: var(--color-gray-100);
   border: 1px solid var(--color-gray-300);
   color: var(--color-gray-700);
 }
-
-.prev-btn:hover {
+.create-vote-page .form-navigation .prev-btn:hover {
   background: var(--color-gray-200);
 }
-
-.next-btn,
-.submit-btn {
+.create-vote-page .form-navigation .next-btn,
+.create-vote-page .form-navigation .submit-btn {
   background: var(--color-primary-600);
   color: white;
   border: none;
 }
-
-.next-btn:hover,
-.submit-btn:hover {
+.create-vote-page .form-navigation .next-btn:hover,
+.create-vote-page .form-navigation .submit-btn:hover {
   background: var(--color-primary-700);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(111, 92, 255, 0.2);
 }
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
-  .progress-steps {
+  .create-vote-page .progress-steps {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.5rem;
   }
-  .progress-steps::before {
+  .create-vote-page .progress-steps::before {
     display: none;
   }
-  .step {
+  .create-vote-page .progress-steps .step {
     flex-direction: row;
     gap: 1rem;
     align-items: center;
   }
-  .step p {
+  .create-vote-page .progress-steps .step p {
     text-align: left;
     margin-bottom: 0;
   }
-  .candidate-row,
-  .party-row {
+  .create-vote-page .candidate-row,
+  .create-vote-page .party-row,
+  .create-vote-page .date-inputs {
     grid-template-columns: 1fr auto;
   }
-  .party-row {
+  .create-vote-page .candidate-row.party-row,
+  .create-vote-page .party-row.party-row,
+  .create-vote-page .date-inputs.party-row {
     grid-template-columns: 1fr auto;
   }
-  .date-inputs {
+  .create-vote-page .candidate-row.date-inputs,
+  .create-vote-page .party-row.date-inputs,
+  .create-vote-page .date-inputs.date-inputs {
     grid-template-columns: 1fr;
     gap: 2rem;
   }

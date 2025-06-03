@@ -12,6 +12,7 @@ import AllVotes from "./pages/AllVotes/AllVotes";
 import VotingPage from "./pages/Vote/Vote";
 import ResultsPage from "./pages/Result/Result";
 import CreateVotePage from "./pages/CreateVote/CreateVote";
+import MyProfile from "./pages/Profile/Profile";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -28,6 +29,8 @@ function App() {
         <Route path="/vote/:voteId/result" element={<ResultsPage />} />
 
         <Route path="/create" element={<CreateVotePage />} />
+
+        <Route path="/profile" element={<MyProfile />} />
       </Routes>
     </>
   );
