@@ -10,7 +10,8 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-import "./create-vote.css"
+import "./create-vote.css";
+import Aside from "../../components/Aside/Aside";
 
 const CreateVotePage = () => {
   const navigate = useNavigate();
@@ -107,6 +108,7 @@ const CreateVotePage = () => {
 
   return (
     <div className="create-vote-page">
+      <Aside />
       <div className="create-header">
         <h1>
           <FaPlus /> Create New Vote
