@@ -147,6 +147,7 @@ import {
   FaBars,
   FaTimes,
   FaChartBar,
+  FaInfoCircle,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
@@ -158,7 +159,7 @@ const Aside = ({
     { path: "/", name: "Home", icon: <RiDashboardFill /> },
     // { path: "/votes", name: "All Votes", icon: <FaVoteYea /> },
     { path: "/create", name: "Create Vote", icon: <IoCreateOutline /> },
-    { path: "/results", name: "Results", icon: <FaChartBar /> },
+    { path: "/about", name: "About", icon: <FaInfoCircle /> },
   ],
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

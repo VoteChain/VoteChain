@@ -30,6 +30,7 @@ function App() {
         <Route path="/create" element={<CreateVotePage />} />
 
         <Route path="/profile" element={<MyProfile />} />
+        <Route path="/about" element={<MyProfile />} />
       </Routes>
     </>
   );

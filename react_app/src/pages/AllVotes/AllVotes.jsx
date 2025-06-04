@@ -18,26 +18,20 @@ import {
   FaEye,
   FaGlobe,
   FaHistory,
+  FaInfoCircle,
   FaSort,
   FaUser,
   FaUserEdit,
 } from "react-icons/fa";
 import Button from "../../components/Button/Button";
+import { RiDashboardFill } from "react-icons/ri";
+import { IoCreateOutline } from "react-icons/io5";
 
 // Pages in Navbar
 const pages = [
-  {
-    name: "Explore",
-    link: `/Voting Page?tab=explore`,
-  },
-  {
-    name: "My Polls",
-    link: `/Voting Page?tab=my`,
-  },
-  {
-    name: "History",
-    link: `/Voting Page?tab=history`,
-  },
+  { path: "/", name: "Home", icon: <RiDashboardFill /> },
+  { path: "/create", name: "Create Vote", icon: <IoCreateOutline /> },
+  { path: "/about", name: "About", icon: <FaInfoCircle /> },
 ];
 
 function AllVotes() {
@@ -208,16 +202,7 @@ function AllVotes() {
     <>
       <div className="all-votes">
         {/* <div className="aside-div"> */}
-        <Aside
-          objs={pages}
-          active={`/Voting Page?tab=${state.tab}`}
-          buttonConf={{
-            title: "Create new poll",
-            handleClick: () => {
-              navigate("/create"); // Redirect to create vote page
-            },
-          }}
-        />
+        <Aside navLinks={pages} />
         {/* </div> */}
         <div className="profile-tabs">
           <button
