@@ -24,15 +24,45 @@ import {
 } from "react-icons/fa";
 import Button from "../../components/Button/Button";
 
+// Pages in Navbar
+const pages = [
+  {
+    name: "Explore",
+    link: `/Voting Page?tab=explore`,
+  },
+  {
+    name: "My Polls",
+    link: `/Voting Page?tab=my`,
+  },
+  {
+    name: "History",
+    link: `/Voting Page?tab=history`,
+  },
+];
+
 function AllVotes() {
   // Get search Params
   const [searchParams] = useSearchParams();
 
+  // Using state
+  const [state, setState] = useState({
+    showFilterModal: false,
+    tab: searchParams.get("tab"),
+  });
+
+  // Change tab whenever searchParams change
+  useEffect(() => {
+    const currentTab = searchParams.get("tab") || "explore";
+    setState({ ...state, tab: currentTab });
+  }, [searchParams]);
+
+  // Using Navigation
   const navigate = useNavigate();
 
   // Get All Votes
   const [allVotes, setAllVotes] = useState([
     {
+      id: 0,
       name: "Best Campus Food Spot",
       desc: "Students choose their favorite place to grab lunch on campus.",
       role: "Public poll",
@@ -49,10 +79,11 @@ function AllVotes() {
       voters: ["alice.near", "ben.near", "chioma.near"],
     },
     {
+      id: 1,
       name: "Department Chair Election",
       desc: "Faculty members elect the next chair of the Computer Science Department.",
       role: "Faculty only",
-      creator: "cs-dept.near",
+      creator: "abnakore.near",
       openOn: "2025-06-03T08:00:00Z",
       closeOn: "2025-06-03T15:00:00Z",
       createdOn: "2025-05-30T08:30:00Z",
@@ -65,10 +96,11 @@ function AllVotes() {
       voters: [],
     },
     {
+      id: 2,
       name: "Product Feature Priority",
       desc: "Customers rank which feature we should build next.",
       role: "Customer advisory board",
-      creator: "acme_product_team.near",
+      creator: "abnakore.near",
       openOn: "2025-05-25T09:00:00Z",
       closeOn: "2025-06-10T12:00:00Z",
       createdOn: "2025-05-15T14:20:00Z",
@@ -86,6 +118,7 @@ function AllVotes() {
       voters: ["maria.near", "john.near"],
     },
     {
+      id: 3,
       name: "Homecoming Theme",
       desc: "Students vote on the official 2025 homecoming celebration theme.",
       role: "Student body",
@@ -107,6 +140,7 @@ function AllVotes() {
       voters: ["ada.near", "bayo.near", "chi.near"],
     },
     {
+      id: 4,
       name: "Board Resolution 2025-04",
       desc: "Board members approve or reject the Q2 budget adjustment.",
       role: "Board vote",
@@ -123,10 +157,11 @@ function AllVotes() {
       voters: ["chair.near", "director1.near"],
     },
     {
+      id: 5,
       name: "Neighborhood Logo Contest",
       desc: "Residents pick the winning logo for the community re-branding.",
       role: "Residents",
-      creator: "bright-meadows-council.near",
+      creator: "abnakore.near",
       openOn: "2025-06-02T00:00:00Z",
       closeOn: "2025-06-05T20:00:00Z",
       createdOn: "2025-05-31T16:45:00Z",
@@ -140,21 +175,13 @@ function AllVotes() {
     },
   ]);
 
-  // Pages in Navbar
-  const pages = [
-    {
-      name: "Explore",
-      link: `/Voting Page?tab=explore`,
-    },
-    {
-      name: "My Polls",
-      link: `/Voting Page?tab=my`,
-    },
-    {
-      name: "History",
-      link: `/Voting Page?tab=history`,
-    },
-  ];
+  // Get the watchlist data
+  const [watchlist, setWatchlist] = useState([1, 4, 3]);
+
+  // Get the logged in User
+  const [userName, setUserName] = useState("abnakore.near");
+
+  const [votesToRender, setVotesToRender] = useState([]);
 
   // Set the types of filters and values
   const [filterOptions, setFilterOptions] = useState({
@@ -171,18 +198,6 @@ function AllVotes() {
     type: Object.keys(filterOptions)[0],
     value: "",
   });
-
-  // Using state
-  const [state, setState] = useState({
-    showFilterModal: false,
-    tab: searchParams.get("tab"),
-  });
-
-  // Change tab whenever searchParams change
-  useEffect(() => {
-    const currentTab = searchParams.get("tab") || "explore";
-    setState({ ...state, tab: currentTab });
-  }, [searchParams]);
 
   // Functions
   // Toggle filter modal
