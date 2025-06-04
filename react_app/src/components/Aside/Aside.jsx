@@ -156,7 +156,7 @@ import "./aside.css";
 const Aside = ({
   navLinks = [
     { path: "/", name: "Home", icon: <RiDashboardFill /> },
-    { path: "/votes", name: "All Votes", icon: <FaVoteYea /> },
+    // { path: "/votes", name: "All Votes", icon: <FaVoteYea /> },
     { path: "/create", name: "Create Vote", icon: <IoCreateOutline /> },
     { path: "/results", name: "Results", icon: <FaChartBar /> },
   ],
@@ -202,7 +202,7 @@ const Aside = ({
             <FaBell />
             <span className="notification-badge">3</span>
           </button>
-          <div className="user-profile">
+          <div className="user-profile" onClick={() => navigation("/profile")}>
             <FaUser />
           </div>
         </div>

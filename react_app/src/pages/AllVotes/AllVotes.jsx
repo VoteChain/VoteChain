@@ -181,18 +181,18 @@ function AllVotes() {
   return (
     <>
       <div className="all-votes">
-        <div className="aside-div">
-          <Aside
-            objs={pages}
-            active={`/Voting Page?tab=${state.tab}`}
-            buttonConf={{
-              title: "Create new poll",
-              handleClick: () => {
-                navigate("/create"); // Redirect to create vote page
-              },
-            }}
-          />
-        </div>
+        {/* <div className="aside-div"> */}
+        <Aside
+          objs={pages}
+          active={`/Voting Page?tab=${state.tab}`}
+          buttonConf={{
+            title: "Create new poll",
+            handleClick: () => {
+              navigate("/create"); // Redirect to create vote page
+            },
+          }}
+        />
+        {/* </div> */}
 
         <div className="quick-actions">
           <div className="search-bar">

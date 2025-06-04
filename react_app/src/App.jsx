@@ -20,8 +20,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-
+        <Route path="/" element={<AllVotes />} />
         <Route path="/voting page" element={<AllVotes />} />
         <Route path="/votes" element={<AllVotes />} />
 
