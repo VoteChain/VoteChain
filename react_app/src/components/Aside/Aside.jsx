@@ -138,7 +138,7 @@
 // // );
 
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaVoteYea,
   FaUser,
@@ -151,28 +151,22 @@ import {
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
 
-import "./aside.css"
+import "./aside.css";
 
-const Aside = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const navLinks = [
+const Aside = ({
+  navLinks = [
     { path: "/", name: "Home", icon: <RiDashboardFill /> },
     { path: "/votes", name: "All Votes", icon: <FaVoteYea /> },
     { path: "/create", name: "Create Vote", icon: <IoCreateOutline /> },
     { path: "/results", name: "Results", icon: <FaChartBar /> },
-  ];
+  ],
+}) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigation = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // Handle search functionality
-    console.log("Searching for:", searchQuery);
   };
 
   return (
@@ -180,7 +174,9 @@ const Aside = () => {
       <div className="navbar-container">
         {/* Logo */}
         <Link to="/" className="navbar-logo">
-          <FaVoteYea className="logo-icon" />
+          {/* <FaVoteYea className="logo-icon" /> */}
+          <img src="/images/_logo0.png" className="logo-icon" />
+          {/* <img src="/images/logo0_nbg.png" className="logo-icon" /> */}
           <span>VoteChain</span>
         </Link>
 
@@ -195,21 +191,10 @@ const Aside = () => {
               }`}
             >
               <span className="nav-icon">{link.icon}</span>
-              {link.name}
+              <span className="nav-text">{link.name}</span>
             </Link>
           ))}
         </div>
-
-        {/* Search Bar (Desktop) */}
-        <form className="navbar-search" onSubmit={handleSearch}>
-          <FaSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search votes..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </form>
 
         {/* User Controls (Desktop) */}
         <div className="navbar-controls">
@@ -231,17 +216,6 @@ const Aside = () => {
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="mobile-menu">
-          {/* Search Bar (Mobile) */}
-          <form className="mobile-search" onSubmit={handleSearch}>
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search votes..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
-
           {/* Mobile Navigation Links */}
           <div className="mobile-links">
             {navLinks.map((link) => (
@@ -254,7 +228,7 @@ const Aside = () => {
                 onClick={toggleMobileMenu}
               >
                 <span className="nav-icon">{link.icon}</span>
-                {link.name}
+                <span className="nav-text">{link.name}</span>
               </Link>
             ))}
           </div>
@@ -265,7 +239,10 @@ const Aside = () => {
               <FaBell />
               <span className="notification-badge">3</span>
             </button>
-            <button className="user-profile-btn">
+            <button
+              className="user-profile-btn"
+              onClick={() => navigation("/profile")}
+            >
               <FaUser /> My Profile
             </button>
           </div>

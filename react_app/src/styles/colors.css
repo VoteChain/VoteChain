@@ -8,6 +8,7 @@
     --color-primary-600: #5949FF;
     --color-primary-700: #4B40FF;
     --color-primary-800: #3D39F4;
+    --color-primary-900: #253358;
 
     /* Secondary (green) */
     --color-secondary-50: #F0FDF4;
@@ -30,5 +31,5 @@
     --color-gray-800: #3f3f3f;
     --color-gray-900: #1f1f1f;
 
-    
+
 }
