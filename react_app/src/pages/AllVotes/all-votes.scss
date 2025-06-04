@@ -37,11 +37,43 @@
         box-sizing: border-box;
     }
 
-    .quick-actions {
-        padding: 100px 0 20px 0px;
+    .profile-tabs {
         display: flex;
-        align-items: center;
+        border-bottom: 1px solid var(--color-gray-200);
+        margin-top: 2rem;
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+
+            &:hover {
+                color: var(--color-primary-700);
+            }
+
+            &.active {
+                color: var(--color-primary-700);
+                border-bottom-color: var(--color-primary-700);
+            }
+        }
+    }
+
+    .quick-actions {
+        padding: 20px 0px;
         gap: 10px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
 
         /* From Uiverse.io by alexruix */
         .search-bar {
@@ -49,11 +81,12 @@
             line-height: 30px;
             align-items: center;
             position: relative;
-            max-width: 300px;
+            max-width: 400px;
+            flex-grow: 1;
 
             .input {
                 width: 100%;
-                height: 40px;
+                height: 50px;
                 line-height: 28px;
                 padding: 0 1rem;
                 padding-left: 2.5rem;
@@ -89,6 +122,11 @@
         }
 
         .filter-div {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex-wrap: wrap;
+
             .filter-btn {
                 @extend %white-button;
 

@@ -1,42 +1,37 @@
-%white-button {
-    position: relative;
-    height: 40px;
-    line-height: 28px;
-    padding: 0 20px;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    background-color: var(--color-gray-100);
-    border: 1px solid var(--color-gray-300);
-    color: #0d0c22;
-    transition: .3s ease;
-    text-wrap: nowrap;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-    font-size: 15px;
-
-    &:hover {
-        border-color: rgba(51, 16, 29, 0.4);
-        background-color: #fff;
-        box-shadow: 0 0 0 4px rgba(57, 18, 33, 0.1);
-    }
-}
-
 .button {
     background-color: var(--color-gray-100);
     color: var(--color-gray-800);
-    padding: 12px 20px;
+    padding: 12px 24px;
     border: none;
-    font-size: 13px;
+    font-size: 15px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
     display: inline-block;
-    margin: 10px;
     transition: all 0.3s ease-in-out;
     border-radius: 50px;
     text-wrap: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    border: 1px solid var(--color-gray-400);
+
+    .button-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #ff4444;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
 
     &:hover {
         background-color: var(--color-secondary-500);
@@ -44,21 +39,15 @@
         transform: scale(1.04);
     }
 
-    &:after {
-        content: "";
-        display: block;
-        width: 0;
-        height: 2px;
-        margin-top: 2px;
-        background-color: var(--color-gray-800);
-        transition: width 0.3s ease-in-out;
+    &.primary {
+        background: var(--color-primary-600);
+        color: white;
+        border: none;
+
+        &:hover {
+            background: var(--color-primary-700);
+            box-shadow: 0 4px 16px rgba(111, 92, 255, 0.25);
+        }
     }
 
-    &:hover:after {
-        width: 100%;
-    }
-}
-
-.button.primarys {
-    @extend %white-button;
 }

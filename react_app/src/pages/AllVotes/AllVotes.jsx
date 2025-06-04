@@ -12,6 +12,17 @@ import Aside from "../../components/Aside/Aside";
 import { IoIosSearch } from "react-icons/io";
 import { HiOutlineFilter } from "react-icons/hi";
 import { Router, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  FaBookmark,
+  FaCog,
+  FaEye,
+  FaGlobe,
+  FaHistory,
+  FaSort,
+  FaUser,
+  FaUserEdit,
+} from "react-icons/fa";
+import Button from "../../components/Button/Button";
 
 function AllVotes() {
   // Get search Params
@@ -193,6 +204,26 @@ function AllVotes() {
           }}
         />
         {/* </div> */}
+        <div className="profile-tabs">
+          <button
+            className={`tab-btn ${state.tab === "explore" ? "active" : ""}`}
+            onClick={() => setState({ ...state, tab: "explore" })}
+          >
+            <FaGlobe /> All Votes
+          </button>
+          <button
+            className={`tab-btn ${state.tab === "my" ? "active" : ""}`}
+            onClick={() => setState({ ...state, tab: "my" })}
+          >
+            <FaUserEdit /> My Votes
+          </button>
+          <button
+            className={`tab-btn ${state.tab === "watching" ? "active" : ""}`}
+            onClick={() => setState({ ...state, tab: "watching" })}
+          >
+            <FaBookmark /> Watching
+          </button>
+        </div>
 
         <div className="quick-actions">
           <div className="search-bar">
@@ -200,11 +231,26 @@ function AllVotes() {
             <input placeholder="Search" type="search" className="input" />
           </div>
           <div className="filter-div">
-            <button className="filter-btn" onClick={toggleFilterModal}>
+            {/* <button className="filter-btn" onClick={toggleFilterModal}>
               <HiOutlineFilter />
               Filter
               <span className="filter-badge">3</span>
-            </button>
+            </button> */}
+            <Button
+              icon={<HiOutlineFilter />}
+              title={"Filter"}
+              badge={3}
+              theme={"secondary"}
+              handleClick={toggleFilterModal}
+            />
+
+            <Button
+              icon={<FaSort />}
+              title={"Sort By"}
+              badge={3}
+              theme={"secondary"}
+              handleClick={() => {}}
+            />
 
             <div
               className={`filter-modal ${state.showFilterModal && "show"}`}
