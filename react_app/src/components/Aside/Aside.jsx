@@ -137,7 +137,7 @@
 // //   </StyledAside>
 // // );
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaVoteYea,
@@ -148,6 +148,7 @@ import {
   FaTimes,
   FaChartBar,
   FaInfoCircle,
+  FaCheck,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
@@ -168,7 +169,57 @@ const Aside = ({
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsPopupOpen(false);
   };
+
+  // !!!
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      type: "vote",
+      title: "New vote created: Treasury Allocation Q4",
+      time: "2 hours ago",
+      read: false,
+      link: "/vote/123",
+    },
+    {
+      id: 2,
+      type: "reminder",
+      title: "Reminder: Community election closes in 24 hours",
+      time: "1 day ago",
+      read: true,
+      link: "/vote/456",
+    },
+    {
+      id: 3,
+      type: "vote",
+      title: "New vote created: Treasury Allocation Q4",
+      time: "2 hours ago",
+      read: false,
+      link: "/vote/123",
+    },
+  ]);
+
+  // Close popup when clicking outside
+  // useEffect(() => {
+  //   const handleClickOutside = (e) => {
+  //     if (!e.target.closest(".notification-container")) {
+  //       setIsPopupOpen(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
+
+  const markAsRead = (id) => {
+    setNotifications((notifs) =>
+      notifs.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+  // !!!
 
   return (
     <nav className="navbar">
@@ -199,9 +250,12 @@ const Aside = ({
 
         {/* User Controls (Desktop) */}
         <div className="navbar-controls">
-          <button className="notification-btn">
+          <button
+            className="notification-btn"
+            onClick={() => setIsPopupOpen(!isPopupOpen)}
+          >
             <FaBell />
-            <span className="notification-badge">3</span>
+            <span className="notification-badge">{unreadCount}</span>
           </button>
           <div className="user-profile" onClick={() => navigation("/profile")}>
             <FaUser />
@@ -236,9 +290,12 @@ const Aside = ({
 
           {/* Mobile User Controls */}
           <div className="mobile-controls">
-            <button className="notification-btn">
+            <button
+              className="notification-btn"
+              onClick={() => setIsPopupOpen(!isPopupOpen)}
+            >
               <FaBell />
-              <span className="notification-badge">3</span>
+              <span className="notification-badge">{unreadCount}</span>
             </button>
             <button
               className="user-profile-btn"
@@ -246,6 +303,39 @@ const Aside = ({
             >
               <FaUser /> My Profile
             </button>
+          </div>
+        </div>
+      )}
+
+      {isPopupOpen && (
+        <div className="notification-popup">
+          <div className="popup-header">
+            <h4>Notifications</h4>
+            <Link to="/notifications" onClick={() => setIsPopupOpen(false)}>
+              View All
+            </Link>
+          </div>
+
+          <div className="popup-items">
+            {notifications.slice(0, 3).map((notification) => (
+              <Link
+                key={notification.id}
+                to={notification.link}
+                className={`popup-item ${notification.read ? "" : "unread"}`}
+                onClick={() => {
+                  markAsRead(notification.id);
+                  setIsPopupOpen(false);
+                }}
+              >
+                <div className="item-icon">
+                  {notification.type === "vote" ? <FaVoteYea /> : <FaCheck />}
+                </div>
+                <div className="item-content">
+                  <p>{notification.title}</p>
+                  <span>{notification.time}</span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       )}
