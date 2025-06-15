@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // Style
 import "./all-votes.css";
@@ -26,6 +26,7 @@ import {
 import Button from "../../components/Button/Button";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
+import { camelCaseToNormal } from "../../scripts/functions";
 
 // Pages in Navbar
 const pages = [
@@ -34,9 +35,21 @@ const pages = [
   { path: "/about", name: "About", icon: <FaInfoCircle /> },
 ];
 
+// Tabs
+const TABS = { all: "all", my: "my", watchlist: "watching" };
+
+// Filter types
+const FILTERTYPES = {
+  status: "status",
+  creator: "creator",
+  security: "security",
+};
+
 function AllVotes() {
   // Get search Params
   const [searchParams] = useSearchParams();
+  // Using Navigation
+  const navigate = useNavigate();
 
   // Using state
   const [state, setState] = useState({
@@ -44,15 +57,31 @@ function AllVotes() {
     tab: searchParams.get("tab"),
   });
 
-  // Change tab whenever searchParams change
-  useEffect(() => {
-    const currentTab = searchParams.get("tab") || "explore";
-    setState({ ...state, tab: currentTab });
-  }, [searchParams]);
+  // Votes to render (After applying filters and sorting)
+  const [votesToRender, setVotesToRender] = useState([]);
 
-  // Using Navigation
-  const navigate = useNavigate();
+  // Set the types of filters and values
+  const filterOptions = useMemo(
+    () => ({
+      [FILTERTYPES.status]: ["active", "upcoming", "ended"], // 'active' | 'upcoming' | 'ended' | null
+      [FILTERTYPES.creator]: [
+        ...new Set(votesToRender.map((vote) => vote.creator)),
+      ], // Set of user IDs or names
+      [FILTERTYPES.security]: ["locked", "unlocked"], // 'locked' | 'unlocked' | null
+    }),
+    [votesToRender]
+  );
 
+  // State that saves the applied Filters
+  const [appliedFilters, setAppliedFilters] = useState([]);
+
+  // Current filter (Set the selected filter type to be the first type in the filter options and the fist value in the filter type)
+  const [currentFilter, setCurrentFilter] = useState({
+    type: Object.keys(filterOptions)[0],
+    value: Object.values(filterOptions)[0][0],
+  });
+
+  // Fetch Data
   // Get All Votes
   const [allVotes, setAllVotes] = useState([
     {
@@ -175,28 +204,130 @@ function AllVotes() {
   // Get the logged in User
   const [userName, setUserName] = useState("abnakore.near");
 
-  const [votesToRender, setVotesToRender] = useState([]);
-
-  // Set the types of filters and values
-  const [filterOptions, setFilterOptions] = useState({
-    status: ["active", "upcoming", "ended"], // 'active' | 'upcoming' | 'ended' | null
-    createdBy: allVotes.map((vote) => vote.creator), // List of user IDs or names
-    security: ["locked", "unlocked"], // 'locked' | 'unlocked' | null
-  });
-
-  // State that saves the applied Filters
-  const [appliedFilters, setAppliedFilters] = useState([]);
-
-  // Current filter (Set the selected filter type to be the first type in the filter options)
-  const [currentFilter, setCurrentFilter] = useState({
-    type: Object.keys(filterOptions)[0],
-    value: "",
-  });
+  // Effects
+  // Change tab whenever searchParams change
+  useEffect(() => {
+    const currentTab = searchParams.get("tab") || TABS.all;
+    setState({ ...state, tab: currentTab });
+  }, [searchParams]);
 
   // Functions
   // Toggle filter modal
   const toggleFilterModal = () =>
     setState({ ...state, showFilterModal: !state.showFilterModal });
+
+  // Add filter
+  const addFilter = (filter) => {
+    // Verify validity (check if the filter value is included in the filter type's value)
+    if (!filterOptions[filter.type].includes(filter.value)) {
+      console.warn("Invalid!!!");
+    }
+
+    // Get the already applied filter types
+    const appliedFiltersTypes = appliedFilters.map((filt) => filt.type);
+    // Check if the current filter type has already been applied
+    if (appliedFiltersTypes.includes(filter.type)) {
+      // Replace the existing filter with the new value
+      setAppliedFilters((prev) =>
+        prev.map((filt) => (filt.type === filter.type ? filter : filt))
+      );
+    } else {
+      // Add as new filter if it does'nt exist
+      setAppliedFilters((prev) => prev.concat(filter));
+    }
+  };
+
+  // Remove Filter
+  const removeFilter = (filterType) => {
+    setAppliedFilters((prev) =>
+      prev.filter((filt) => filt.type !== filterType)
+    );
+  };
+
+  // The main filter function (Filter by tab, appliedFilters, sort and search)
+  const filterVotes = async () => {
+    // Copy allvotes to a new variable
+    let filteredVotes = allVotes;
+    console.log(filteredVotes);
+
+    // Filter by tab
+    // Filter only if the tab is not all votes
+    if (state.tab !== TABS.all) {
+      filteredVotes = await filterByTab(filteredVotes, state.tab);
+    }
+    console.log(filteredVotes);
+
+    // Filter by applied Filters
+    filteredVotes = await filterByAppliedFilters(filteredVotes, appliedFilters);
+    console.log(filteredVotes);
+
+    // Sort
+
+    // Search
+
+    // Update the votesToRender list
+    setVotesToRender(filteredVotes);
+  };
+
+  // Filter by tab (all_votes, my_Votes or watching)
+  const filterByTab = async (votes, tab) => {
+    if (tab === TABS.my) {
+      // Filter the votes created by the user
+      return votes.filter((vote) => vote.creator === userName);
+    } else if (tab === TABS.watchlist) {
+      // Filter the votes that are in the user's watchlist
+      return votes.filter((vote) => watchlist.includes(vote.id));
+    }
+
+    // Return all votes by default
+    return votes;
+  };
+
+  // Filter by applied filters
+  const filterByAppliedFilters = async (votes, applied_filters) => {
+    let filteredVotes = votes;
+
+    applied_filters.forEach((filter) => {
+      // Filter the votes based on each filter types
+      filteredVotes = filteredVotes.filter((vote) => {
+        // Check for passcode if the filter type is security filter
+        if (filter.type === FILTERTYPES.security) {
+          // Filter votes that has passcode if the value is locked and those that does'nt otherwise
+
+          return filter.value === "locked"
+            ? !(vote.passcode === "")
+            : vote.passcode === "";
+        }
+
+        //
+        return vote[filter.type] === filter.value;
+      });
+    });
+
+    return filteredVotes;
+  };
+
+  // Sort function (by title, time remaining, number of votes, or quorum) in ascending or descending order
+  const sortVotes = async (votes, by, order) => {
+    return votes;
+  };
+
+  // Search
+  const searchVotes = async (votes, searchQuery) => {
+    return votes;
+  };
+
+  useEffect(() => {
+    // Clear filters and search
+
+    // Filter Votes
+    filterVotes();
+  }, [state.tab]);
+
+  useEffect(() => {
+    // Filter Votes
+    filterVotes();
+  }, [appliedFilters]);
 
   return (
     <>
@@ -206,20 +337,22 @@ function AllVotes() {
         {/* </div> */}
         <div className="profile-tabs">
           <button
-            className={`tab-btn ${state.tab === "explore" ? "active" : ""}`}
-            onClick={() => setState({ ...state, tab: "explore" })}
+            className={`tab-btn ${state.tab === TABS.all ? "active" : ""}`}
+            onClick={() => setState({ ...state, tab: TABS.all })}
           >
             <FaGlobe /> All Votes
           </button>
           <button
-            className={`tab-btn ${state.tab === "my" ? "active" : ""}`}
-            onClick={() => setState({ ...state, tab: "my" })}
+            className={`tab-btn ${state.tab === TABS.my ? "active" : ""}`}
+            onClick={() => setState({ ...state, tab: TABS.my })}
           >
             <FaUserEdit /> My Votes
           </button>
           <button
-            className={`tab-btn ${state.tab === "watching" ? "active" : ""}`}
-            onClick={() => setState({ ...state, tab: "watching" })}
+            className={`tab-btn ${
+              state.tab === TABS.watchlist ? "active" : ""
+            }`}
+            onClick={() => setState({ ...state, tab: TABS.watchlist })}
           >
             <FaBookmark /> Watching
           </button>
@@ -231,15 +364,10 @@ function AllVotes() {
             <input placeholder="Search" type="search" className="input" />
           </div>
           <div className="filter-div">
-            {/* <button className="filter-btn" onClick={toggleFilterModal}>
-              <HiOutlineFilter />
-              Filter
-              <span className="filter-badge">3</span>
-            </button> */}
             <Button
               icon={<HiOutlineFilter />}
               title={"Filter"}
-              badge={3}
+              badge={appliedFilters.length > 0 && appliedFilters.length}
               theme={"secondary"}
               handleClick={toggleFilterModal}
             />
@@ -261,55 +389,56 @@ function AllVotes() {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="modal-header">
-                  <h3>
-                    Manage Filters {JSON.stringify(currentFilter)}
-                    {String(filterOptions[currentFilter.type]?.length)}
-                  </h3>
+                  <h3>Manage Filters</h3>
                 </div>
 
                 <div className="active-filters">
-                  <div className="filter-item">
-                    <div>Key:value</div>
-                    <span className="close" onClick={() => {}}>
-                      &times;
-                    </span>
-                  </div>
-                  <div className="filter-item">
-                    <div>Key:value</div>
-                    <span className="close" onClick={() => {}}>
-                      &times;
-                    </span>
-                  </div>
-                  <div className="filter-item">
-                    <div>Key:value</div>
-                    <span className="close" onClick={() => {}}>
-                      &times;
-                    </span>
-                  </div>
+                  {appliedFilters.map((filter) => (
+                    <div key={filter.type} className="filter-item">
+                      <div>{`${camelCaseToNormal(filter.type)}: ${
+                        filter.value
+                      }`}</div>
+                      <span
+                        className="close"
+                        onClick={() => removeFilter(filter.type)}
+                      >
+                        &times;
+                      </span>
+                    </div>
+                  ))}
                 </div>
 
                 <div className="add-filter">
                   <select
                     id="filterType"
                     onChange={(e) =>
-                      setCurrentFilter({ type: e.target.value, value: "" })
+                      setCurrentFilter({
+                        type: e.target.value,
+                        value: filterOptions[e.target.value][0],
+                      })
                     }
                   >
                     {Object.keys(filterOptions).map((key) => (
                       <option key={key} value={key}>
-                        {
-                          key
-                            .replace(/([A-Z])/g, " $1") // insert space before capital letters
-                            .replace(/^./, (str) => str.toUpperCase()) // capitalize first letter
-                        }
+                        {camelCaseToNormal(key)}
                       </option>
                     ))}
                   </select>
                   {filterOptions[currentFilter.type]?.length <= 3 ? (
-                    <select id="filterType">
-                      <option value="category">Created By</option>
-                      <option value="price">Security</option>
-                      <option value="status">Status</option>
+                    <select
+                      id="filterType"
+                      onChange={(e) =>
+                        setCurrentFilter({
+                          ...currentFilter,
+                          value: e.target.value,
+                        })
+                      }
+                    >
+                      {filterOptions[currentFilter.type]?.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {camelCaseToNormal(opt)}
+                        </option>
+                      ))}
                     </select>
                   ) : (
                     <>
@@ -318,6 +447,13 @@ function AllVotes() {
                         id="filterValue"
                         placeholder="Enter value"
                         list="status-options"
+                        value={currentFilter.value}
+                        onChange={(e) =>
+                          setCurrentFilter({
+                            ...currentFilter,
+                            value: e.target.value,
+                          })
+                        }
                       />
 
                       <datalist id="status-options">
@@ -327,13 +463,26 @@ function AllVotes() {
                       </datalist>
                     </>
                   )}
-                  <button className="white-button" onClick={() => {}}>
+                  <button
+                    className="white-button"
+                    onClick={() => addFilter(currentFilter)}
+                    disabled={
+                      !filterOptions[currentFilter.type].includes(
+                        currentFilter.value
+                      )
+                    }
+                  >
                     Add Filter
                   </button>
                 </div>
 
                 <div className="modal-footer">
-                  <button className="white-button" onClick={() => {}}>
+                  <button
+                    className="white-button"
+                    onClick={() => {
+                      appliedFilters.forEach((filt) => removeFilter(filt.type));
+                    }}
+                  >
                     Clear All
                   </button>
                   <button className="white-button" onClick={toggleFilterModal}>
@@ -346,7 +495,7 @@ function AllVotes() {
         </div>
 
         <div className="votes-list">
-          {allVotes.map((vote, i) => (
+          {votesToRender.map((vote, i) => (
             <VoteCard key={i} {...vote} />
           ))}
         </div>

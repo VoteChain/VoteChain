@@ -95,3 +95,9 @@ export const getTimeRemaining = (targetDate, options = {}) => {
     .map((unit) => `${unit.value} ${unit.unit}${unit.value !== 1 ? "s" : ""}`)
     .join(", ");
 };
+
+export const camelCaseToNormal = (text) => {
+  return text
+    .replace(/([A-Z])/g, " $1") // insert space before capital letters
+    .replace(/^./, (str) => str.toUpperCase()); // capitalize first letter
+};

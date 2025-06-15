@@ -41,6 +41,7 @@
         display: flex;
         border-bottom: 1px solid var(--color-gray-200);
         margin-top: 2rem;
+        flex-wrap: wrap;
 
         .tab-btn {
             padding: 1rem 1.5rem;
@@ -54,6 +55,8 @@
             align-items: center;
             gap: 0.5rem;
             transition: all 0.2s;
+            flex-wrap: nowrap;
+            text-wrap: nowrap;
 
             &:hover {
                 color: var(--color-primary-700);
@@ -163,6 +166,15 @@
 
                 .white-button {
                     @extend %white-button;
+
+                    &:disabled {
+                        opacity: .5;
+
+                        &:hover {
+                            border-color: rgba(255, 1, 5, 0.477);
+                            background-color: #fff;
+                        }
+                    }
                 }
 
                 .modal-content {
