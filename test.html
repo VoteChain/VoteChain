@@ -3,823 +3,206 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoteChain - Decentralized Voting Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Votes Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Imported and modified styles based on your provided CSS */
         :root {
-            /* Primary (blue) */
-            --color-primary-50: #efefff;
-            --color-primary-100: #e3d9ff;
-            --color-primary-200: #d1c0ff;
-            --color-primary-500: #6F5CFF;
-            --color-primary-600: #5949FF;
-            --color-primary-700: #4B40FF;
-            --color-primary-800: #3D39F4;
-
-            /* Secondary (green) */
-            --color-secondary-50: #F0FDF4;
-            --color-secondary-100: #E7FCE8;
-            --color-secondary-200: #D4F8D5;
-            --color-secondary-500: #4CD964;
-            --color-secondary-600: #37B34A;
-            --color-secondary-700: #2E8E3F;
-            --color-secondary-800: #266F34;
-
-            /* Gray */
-            --color-gray-50: #ffffff;
-            --color-gray-100: #f7f7f7;
-            --color-gray-200: #ededed;
-            --color-gray-300: #e0e0e0;
-            --color-gray-400: #cfcfcf;
-            --color-gray-500: #b1b1b1;
-            --color-gray-600: #8c8c8c;
-            --color-gray-700: #666666;
-            --color-gray-800: #3f3f3f;
-            --color-gray-900: #1f1f1f;
-        }
-
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-600: #4b5563;
+            --color-gray-800: #1f2937;
+            --color-primary-600: #2563eb;
+            --color-primary-700: #1d4ed8;
         }
 
         body {
-            margin: 0;
-            background-color: var(--color-gray-200);
-            font-family: 'Inter', system-ui, sans-serif;
-            line-height: 1.5;
+            font-family: sans-serif;
+            background: #fff;
+            padding: 40px;
             color: var(--color-gray-800);
         }
 
-        /* Header/Navigation */
-        .aside {
-            --faded_bg_color: #cccccc99;
-            width: calc(100% - 40px);
-            padding: 5px 20px;
-            background-color: var(--faded_bg_color);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
+        .votes-page {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .toolbar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px auto;
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            justify-content: flex-end;
+            margin-bottom: 20px;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .logo a {
-            text-decoration: none;
-            color: var(--color-primary-700);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo i {
-            color: var(--color-secondary-600);
-        }
-
-        .tabs {
-            display: flex;
-            gap: 25px;
-        }
-
-        .tabs a {
-            font-weight: 500;
-            font-size: 16px;
-            color: var(--color-gray-700);
-            text-decoration: none;
-            padding: 10px 0;
+        /* Sort styles */
+        .sort-container {
             position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .tabs a:hover,
-        .tabs a.active {
-            color: var(--color-primary-700);
-        }
-
-        .tabs a.active:after {
-            content: '';
-            position: absolute;
-            bottom: 5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--color-primary-600);
-        }
-
-        .others {
-            display: flex;
-            gap: 15px;
-        }
-
-        .button {
-            background-color: var(--color-gray-100);
-            color: var(--color-gray-800);
-            padding: 12px 24px;
-            border: none;
-            font-size: 15px;
-            text-decoration: none;
-            font-weight: 600;
             display: inline-block;
-            transition: all 0.3s ease-in-out;
-            border-radius: 50px;
-            text-wrap: nowrap;
-            cursor: pointer;
+        }
+
+        .sort-button {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .button:hover {
-            background-color: var(--color-secondary-500);
-            color: var(--color-gray-800);
-            transform: scale(1.04);
-        }
-
-        .button.primary {
-            background: var(--color-primary-600);
-            color: white;
-        }
-
-        .button.primary:hover {
-            background: var(--color-primary-700);
-            box-shadow: 0 4px 16px rgba(111, 92, 255, 0.25);
-        }
-
-        /* Hero Section */
-        .hero {
-            width: 100%;
-            padding: 80px 20px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 50px;
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, var(--color-primary-100), var(--color-secondary-100));
-        }
-
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .headings {
-            margin-bottom: 40px;
-        }
-
-        .headings .headline {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, var(--color-primary-700), var(--color-secondary-700));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .headings .subheadline {
-            font-size: 1.5rem;
-            font-weight: 400;
-            color: var(--color-gray-700);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        /* Vote Cards Section */
-        .all-votes {
-            padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--color-gray-800);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .section-title i {
-            color: var(--color-primary-600);
-            font-size: 1.8rem;
-        }
-
-        .quick-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .search-bar {
-            position: relative;
-            max-width: 400px;
-            flex-grow: 1;
-        }
-
-        .search-bar input {
-            width: 100%;
-            height: 50px;
-            padding: 0 20px 0 50px;
-            border: 2px solid var(--color-gray-300);
-            border-radius: 12px;
-            background-color: var(--color-gray-50);
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .search-bar input:focus {
-            outline: none;
-            border-color: var(--color-primary-500);
-            box-shadow: 0 0 0 4px rgba(111, 92, 255, 0.1);
-        }
-
-        .search-bar i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--color-gray-600);
-        }
-
-        .filter-sort {
-            display: flex;
-            gap: 15px;
-        }
-
-        .votes-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-            gap: 30px;
-        }
-
-        .vote-card {
-            background-color: var(--color-gray-50);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 8px 16px;
+            background: var(--color-gray-100);
             border: 1px solid var(--color-gray-300);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
         }
 
-        .vote-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        .sort-button:hover {
+            background: var(--color-gray-200);
         }
 
-        .vote-card-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--color-gray-200);
+        .sort-popup {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 200px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            margin-top: 8px;
+            border: 1px solid var(--color-gray-200);
+        }
+
+        .popup-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .popup-header h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-gray-600);
+            padding: 4px;
+        }
+
+        .sort-options {
+            list-style: none;
+            padding: 8px 0;
+            margin: 0;
+        }
+
+        .sort-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--color-gray-800);
+        }
+
+        .sort-option:hover {
+            background: var(--color-gray-100);
+        }
+
+        .sort-option.active {
+            color: var(--color-primary-700);
+            font-weight: 500;
+        }
+
+        .sort-option i {
+            margin-left: 8px;
+            color: var(--color-primary-600);
+        }
+
+        /* VoteCard styles */
+        .vote-card {
+            border: 1px solid var(--color-gray-200);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
         .vote-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--color-gray-800);
-        }
-
-        .vote-desc {
-            font-size: 1rem;
-            color: var(--color-gray-600);
-            line-height: 1.5;
-        }
-
-        .vote-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 18px;
             font-weight: 600;
         }
 
-        .tag-active {
-            background-color: var(--color-secondary-100);
-            color: var(--color-secondary-800);
-        }
-
-        .tag-upcoming {
-            background-color: var(--color-primary-100);
-            color: var(--color-primary-800);
-        }
-
-        .tag-ended {
-            background-color: var(--color-gray-200);
-            color: var(--color-gray-700);
-        }
-
-        .vote-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-            background-color: var(--color-gray-100);
-        }
-
-        .stat-card {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
+        .vote-meta {
+            font-size: 14px;
+            margin-top: 8px;
             color: var(--color-gray-600);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--color-gray-800);
-        }
-
-        .vote-footer {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--color-gray-50);
-            border-top: 1px solid var(--color-gray-200);
-        }
-
-        .vote-date {
-            font-size: 0.9rem;
-            color: var(--color-gray-600);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .vote-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--color-gray-200);
-            color: var(--color-gray-700);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .action-btn:hover {
-            background-color: var(--color-primary-100);
-            color: var(--color-primary-700);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1000px) {
-            .votes-list {
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            .aside {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-
-            .tabs {
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .headings .headline {
-                font-size: 2.5rem;
-            }
-
-            .headings .subheadline {
-                font-size: 1.2rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                gap: 15px;
-                align-items: center;
-            }
-
-            .button {
-                width: 100%;
-                max-width: 300px;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .quick-actions {
-                flex-direction: column;
-            }
-
-            .search-bar {
-                max-width: 100%;
-            }
-
-            .votes-list {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animation for vote cards */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .vote-card {
-            animation: fadeInUp 0.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        .vote-card:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .vote-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .vote-card:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .vote-card:nth-child(4) {
-            animation-delay: 0.4s;
-        }
-
-        .vote-card:nth-child(5) {
-            animation-delay: 0.5s;
-        }
-
-        .vote-card:nth-child(6) {
-            animation-delay: 0.6s;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header/Navigation -->
-    <header class="aside">
-        <div class="logo">
-            <a href="#"><i class="fas fa-vote-yea"></i> VoteChain</a>
-        </div>
-        <div class="tabs">
-            <a href="#" class="active">Home</a>
-            <a href="#">All Votes</a>
-            <a href="#">Create Vote</a>
-            <a href="#">Results</a>
-            <a href="#">About</a>
-        </div>
-        <div class="others">
-            <button class="button"><i class="fas fa-user"></i> Sign In</button>
-            <button class="button primary"><i class="fas fa-wallet"></i> Connect Wallet</button>
-        </div>
-    </header>
+    <div class="votes-page">
+        <div class="toolbar">
+            <div class="sort-container">
+                <button class="sort-button">
+                    <i class="fas fa-sort"></i>
+                    <span>Sort By</span>
+                </button>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-background"></div>
-        <div class="hero-content">
-            <div class="headings">
-                <h1 class="headline">Decentralized Voting Made Simple</h1>
-                <p class="subheadline">VoteChain brings secure, transparent, and accessible voting to everyone. Powered
-                    by blockchain technology, we ensure every vote counts and every voice is heard.</p>
-            </div>
-            <div class="hero-buttons">
-                <button class="button primary"><i class="fas fa-plus"></i> Create New Vote</button>
-                <button class="button"><i class="fas fa-vote-yea"></i> View Active Votes</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- All Votes Section -->
-    <section class="all-votes">
-        <h2 class="section-title"><i class="fas fa-poll"></i> Active Votes</h2>
-
-        <div class="quick-actions">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search votes...">
-            </div>
-            <div class="filter-sort">
-                <button class="button"><i class="fas fa-filter"></i> Filter</button>
-                <button class="button"><i class="fas fa-sort"></i> Sort By</button>
+                <!-- Static Sort Popup (show by default) -->
+                <div class="sort-popup">
+                    <div class="popup-header">
+                        <h4>Sort By</h4>
+                        <button class="close-button"><i class="fas fa-times"></i></button>
+                    </div>
+                    <ul class="sort-options">
+                        <li>
+                            <button class="sort-option active">
+                                Title <i class="fas fa-sort-up"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="sort-option">
+                                Time Remaining
+                            </button>
+                        </li>
+                        <li>
+                            <button class="sort-option">
+                                Number of Votes
+                            </button>
+                        </li>
+                        <li>
+                            <button class="sort-option">
+                                Quorum
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <div class="votes-list">
-            <!-- Vote Card 1 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">Community DAO Treasury Allocation</h3>
-                        <p class="vote-desc">How should we allocate the remaining Q3 treasury funds?</p>
-                    </div>
-                    <span class="vote-tag tag-active"><i class="fas fa-spinner"></i> Active</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">1,248</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">4</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Time Left</span>
-                        <span class="stat-value">2 Days</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Quorum</span>
-                        <span class="stat-value">68%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Ends: Oct 15, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-vote-yea"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vote Card 2 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">Platform Feature Development Priority</h3>
-                        <p class="vote-desc">Which feature should we prioritize for our next release?</p>
-                    </div>
-                    <span class="vote-tag tag-active"><i class="fas fa-spinner"></i> Active</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">892</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">5</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Time Left</span>
-                        <span class="stat-value">5 Days</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Quorum</span>
-                        <span class="stat-value">42%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Ends: Oct 18, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-vote-yea"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vote Card 3 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">Ecosystem Grant Recipients</h3>
-                        <p class="vote-desc">Select projects to receive ecosystem development grants.</p>
-                    </div>
-                    <span class="vote-tag tag-upcoming"><i class="fas fa-hourglass-start"></i> Upcoming</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">-</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">12</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Starts In</span>
-                        <span class="stat-value">3 Days</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Quorum</span>
-                        <span class="stat-value">55%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Starts: Oct 16, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-bell"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vote Card 4 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">Governance Parameter Update</h3>
-                        <p class="vote-desc">Vote on proposed changes to governance parameters.</p>
-                    </div>
-                    <span class="vote-tag tag-ended"><i class="fas fa-check-circle"></i> Ended</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">2,415</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">3</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Status</span>
-                        <span class="stat-value">Passed</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Participation</span>
-                        <span class="stat-value">81%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Ended: Oct 5, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-chart-bar"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vote Card 5 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">Tokenomics Adjustment Proposal</h3>
-                        <p class="vote-desc">Adjust token emission schedule for sustainability.</p>
-                    </div>
-                    <span class="vote-tag tag-active"><i class="fas fa-spinner"></i> Active</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">1,724</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">2</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Time Left</span>
-                        <span class="stat-value">1 Day</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Quorum</span>
-                        <span class="stat-value">74%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Ends: Oct 14, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-vote-yea"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Vote Card 6 -->
-            <div class="vote-card">
-                <div class="vote-card-header">
-                    <div class="vote-info">
-                        <h3 class="vote-title">New Ambassador Program</h3>
-                        <p class="vote-desc">Select regional ambassadors for community outreach.</p>
-                    </div>
-                    <span class="vote-tag tag-upcoming"><i class="fas fa-hourglass-start"></i> Upcoming</span>
-                </div>
-                <div class="vote-stats">
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-users"></i> Voters</span>
-                        <span class="stat-value">-</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-check-circle"></i> Options</span>
-                        <span class="stat-value">8</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-clock"></i> Starts In</span>
-                        <span class="stat-value">7 Days</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label"><i class="fas fa-percentage"></i> Quorum</span>
-                        <span class="stat-value">40%</span>
-                    </div>
-                </div>
-                <div class="vote-footer">
-                    <span class="vote-date"><i class="fas fa-calendar"></i> Starts: Oct 20, 2023</span>
-                    <div class="vote-actions">
-                        <div class="action-btn"><i class="fas fa-info-circle"></i></div>
-                        <div class="action-btn"><i class="fas fa-bell"></i></div>
-                        <div class="action-btn"><i class="fas fa-share-alt"></i></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Vote Cards -->
+        <div class="vote-card">
+            <div class="vote-title">Treasury Allocation</div>
+            <div class="vote-meta">⏱ Time Remaining: 2 days</div>
+            <div class="vote-meta">🗳 Votes: 124</div>
+            <div class="vote-meta">📊 Quorum: 65%</div>
         </div>
-    </section>
 
-    <script>
-        // Simple animation for vote cards on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Add hover effects to buttons
-            const buttons = document.querySelectorAll('.button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function () {
-                    this.style.transform = 'scale(1.04)';
-                });
-
-                button.addEventListener('mouseleave', function () {
-                    this.style.transform = 'scale(1)';
-                });
-            });
-
-            // Add click effect to action buttons
-            const actionBtns = document.querySelectorAll('.action-btn');
-            actionBtns.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    this.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 150);
-                });
-            });
-        });
-    </script>
+        <div class="vote-card">
+            <div class="vote-title">Feature Priorities</div>
+            <div class="vote-meta">⏱ Time Remaining: 5 days</div>
+            <div class="vote-meta">🗳 Votes: 89</div>
+            <div class="vote-meta">📊 Quorum: 50%</div>
+        </div>
+    </div>
 </body>
 
 </html>

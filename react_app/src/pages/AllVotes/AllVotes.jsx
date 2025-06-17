@@ -372,13 +372,13 @@ function AllVotes() {
               handleClick={toggleFilterModal}
             />
 
-            <Button
+            {/* <Button
               icon={<FaSort />}
               title={"Sort By"}
               badge={3}
               theme={"secondary"}
               handleClick={() => {}}
-            />
+            /> */}
 
             <div
               className={`filter-modal ${state.showFilterModal && "show"}`}
