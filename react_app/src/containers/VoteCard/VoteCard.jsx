@@ -142,7 +142,8 @@ function VoteCard({
           <span className="stat-label">
             <FaPercentage /> Quorum
           </span>
-          <span className="stat-value">!!!68%</span>
+          {/* !!! Implement Quorum */}
+          <span className="stat-value">68%</span>
         </div>
       </div>
       <div className="vote-footer">

@@ -26,7 +26,7 @@ import {
 import Button from "../../components/Button/Button";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
-import { camelCaseToNormal } from "../../scripts/functions";
+import { camelCaseToNormal, getVoteStatus } from "../../scripts/functions";
 
 // Pages in Navbar
 const pages = [
@@ -81,6 +81,9 @@ function AllVotes() {
     value: Object.values(filterOptions)[0][0],
   });
 
+  // Search Query
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Fetch Data
   // Get All Votes
   const [allVotes, setAllVotes] = useState([
@@ -90,13 +93,13 @@ function AllVotes() {
       desc: "Students choose their favorite place to grab lunch on campus.",
       role: "Public poll",
       creator: "john_doe.near",
-      openOn: "2025-06-01T12:00:00Z",
-      closeOn: "2025-06-02T12:00:00Z",
+      openOn: "2025-07-01T12:00:00Z",
+      closeOn: "2025-07-02T12:00:00Z",
       createdOn: "2025-05-29T10:00:00Z",
       limit: "1 vote per student",
       opened: true,
       passcode: "",
-      status: "active",
+      status: getVoteStatus("2025-07-01T12:00:00Z", "2025-07-02T12:00:00Z"),
       candidates: ["Café Verde", "Grill House", "Noodle Hub", "Veggie Delight"],
       parties: [],
       voters: ["alice.near", "ben.near", "chioma.near"],
@@ -108,12 +111,12 @@ function AllVotes() {
       role: "Faculty only",
       creator: "abnakore.near",
       openOn: "2025-06-03T08:00:00Z",
-      closeOn: "2025-06-03T15:00:00Z",
+      closeOn: "2025-07-03T15:00:00Z",
       createdOn: "2025-05-30T08:30:00Z",
       limit: "1 vote per faculty member",
       opened: false,
       passcode: "CS-2025-CHAIR",
-      status: "upcoming",
+      status: getVoteStatus("2025-06-03T08:00:00Z", "2025-07-03T15:00:00Z"),
       candidates: ["Dr. A. Martins", "Prof. S. Okafor", "Dr. L. Zhang"],
       parties: [],
       voters: [],
@@ -130,7 +133,7 @@ function AllVotes() {
       limit: "Top-3 ranked choices",
       opened: true,
       passcode: "",
-      status: "active",
+      status: getVoteStatus("2025-05-25T09:00:00Z", "2025-06-10T12:00:00Z"),
       candidates: [
         "Dark Mode",
         "Offline Support",
@@ -146,13 +149,13 @@ function AllVotes() {
       desc: "Students vote on the official 2025 homecoming celebration theme.",
       role: "Student body",
       creator: "student_union.near",
-      openOn: "2025-05-20T10:00:00Z",
-      closeOn: "2025-05-30T23:59:00Z",
-      createdOn: "2025-05-10T09:15:00Z",
+      openOn: "2025-06-20T10:00:00Z",
+      closeOn: "2025-06-30T23:59:00Z",
+      createdOn: "2025-06-10T09:15:00Z",
       limit: "1 vote per student",
       opened: true,
       passcode: "",
-      status: "ended",
+      status: getVoteStatus("2025-06-20T10:00:00Z", "2025-06-30T23:59:00Z"),
       candidates: [
         "Retro Futurism",
         "Carnival Night",
@@ -168,13 +171,13 @@ function AllVotes() {
       desc: "Board members approve or reject the Q2 budget adjustment.",
       role: "Board vote",
       creator: "board_secretary.near",
-      openOn: "2025-05-15T14:00:00Z",
-      closeOn: "2025-05-28T18:00:00Z",
-      createdOn: "2025-05-12T11:00:00Z",
+      openOn: "2025-06-15T14:00:00Z",
+      closeOn: "2025-06-28T18:00:00Z",
+      createdOn: "2025-06-12T11:00:00Z",
       limit: "Yes / No",
       opened: true,
       passcode: "BOARD-ONLY",
-      status: "ended",
+      status: getVoteStatus("2025-06-15T14:00:00Z", "2025-06-28T18:00:00Z"),
       candidates: ["Approve", "Reject", "Abstain"],
       parties: [],
       voters: ["chair.near", "director1.near"],
@@ -191,7 +194,7 @@ function AllVotes() {
       limit: "1 vote per household",
       opened: true,
       passcode: "",
-      status: "active",
+      status: getVoteStatus("2025-06-02T00:00:00Z", "2025-06-05T20:00:00Z"),
       candidates: ["Logo A", "Logo B", "Logo C", "Logo D"],
       parties: [],
       voters: ["amaka.near", "bashir.near", "chika.near"],
@@ -312,16 +315,21 @@ function AllVotes() {
     return votes;
   };
 
-  // Search
-  const searchVotes = async (votes, searchQuery) => {
-    return votes;
-  };
+  // Search (by title)
+  const searchedVotes = useMemo(() => {
+    if (searchQuery === "") return votesToRender;
+    return votesToRender.filter((vote) =>
+      vote.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery, votesToRender]);
 
   useEffect(() => {
     // Clear filters and search
+    setAppliedFilters([]);
+    setSearchQuery("");
 
-    // Filter Votes
-    filterVotes();
+    // !!! Filter Votes
+    // filterVotes();
   }, [state.tab]);
 
   useEffect(() => {
@@ -361,7 +369,13 @@ function AllVotes() {
         <div className="quick-actions">
           <div className="search-bar">
             <IoIosSearch className="icon" />
-            <input placeholder="Search" type="search" className="input" />
+            <input
+              placeholder="Search"
+              type="search"
+              className="input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
           <div className="filter-div">
             <Button
@@ -495,9 +509,10 @@ function AllVotes() {
         </div>
 
         <div className="votes-list">
-          {votesToRender.map((vote, i) => (
-            <VoteCard key={i} {...vote} />
-          ))}
+          {searchedVotes.length > 0
+            ? searchedVotes.map((vote, i) => <VoteCard key={i} {...vote} />)
+            : // !!! Create a template for this
+              "No votes matching query"}
         </div>
       </div>
     </>

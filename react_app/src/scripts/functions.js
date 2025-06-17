@@ -96,6 +96,37 @@ export const getTimeRemaining = (targetDate, options = {}) => {
     .join(", ");
 };
 
+/**
+ * Determines the status of a vote based on current time
+ * @param {Date|string} startTime - The vote start time (Date object or ISO string)
+ * @param {Date|string} endTime - The vote end time (Date object or ISO string)
+ * @returns {string} - Vote status: 'upcoming', 'active', or 'ended'
+ */
+export const getVoteStatus = (startTime, endTime) => {
+  // Convert inputs to Date objects if they aren't already
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+  const now = new Date();
+
+  // Validate dates
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+    throw new Error("Invalid date parameters");
+  }
+
+  if (end < start) {
+    throw new Error("End time cannot be before start time");
+  }
+
+  // Determine status
+  if (now < start) {
+    return "upcoming";
+  } else if (now >= start && now <= end) {
+    return "active";
+  } else {
+    return "ended";
+  }
+};
+
 export const camelCaseToNormal = (text) => {
   return text
     .replace(/([A-Z])/g, " $1") // insert space before capital letters
