@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import VoteCard from "../../containers/VoteCard/VoteCard";
 import {
   FaRegClock,
@@ -41,6 +41,7 @@ const mockVotes = {
 
 const VotingPage = () => {
   const { voteId } = useParams();
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("candidates");
   const [selectedOption, setSelectedOption] = useState(null);
   const [isWatching, setIsWatching] = useState(false);
@@ -77,90 +78,100 @@ const VotingPage = () => {
         showLogo={false}
         // buttonConf={{ title: "Create new poll", handleClick: () => {} }}
       />
-      <div className="vote-header">
-        <div className="vote-meta">
-          <h1>{vote.name}</h1>
-          <p className="creator">Created by: {vote.creator}</p>
-          <p className="description">{vote.desc}</p>
-          <div className="time-info">
-            <FaRegClock />
-            <span>
-              {vote.status === "active"
-                ? `Closes on ${new Date(vote.closeOn).toLocaleString()}`
-                : `Opens on ${new Date(vote.openOn).toLocaleString()}`}
-            </span>
+
+      <div className="voting-page-content">
+        <div className="vote-header">
+          <div className="vote-meta">
+            <h1>{vote.name}</h1>
+            <p className="creator">Created by: {vote.creator}</p>
+            <p className="description">{vote.desc}</p>
+            <div className="time-info">
+              <FaRegClock />
+              <span>
+                {vote.status === "active"
+                  ? `Closes on ${new Date(vote.closeOn).toLocaleString()}`
+                  : `Opens on ${new Date(vote.openOn).toLocaleString()}`}
+              </span>
+            </div>
           </div>
+          <button
+            className={`watchlist-btn ${isWatching ? "watching" : ""}`}
+            onClick={toggleWatchlist}
+          >
+            {isWatching ? <FaBookmark /> : <FaRegBookmark />}
+            {isWatching ? "Watching" : "Watch Vote"}
+          </button>
         </div>
-        <button
-          className={`watchlist-btn ${isWatching ? "watching" : ""}`}
-          onClick={toggleWatchlist}
-        >
-          {isWatching ? <FaBookmark /> : <FaRegBookmark />}
-          {isWatching ? "Watching" : "Watch Vote"}
-        </button>
+
+        {hasVoted ? (
+          <div className="vote-confirmation">
+            <FaCheck className="success-icon" />
+            <h2>Your vote has been submitted!</h2>
+            <p>Thank you for participating in this election.</p>
+            <button
+              className="view-results-btn"
+              onClick={() => navigate(`/vote/${vote.id}/result`)}
+            >
+              View Preliminary Results
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="vote-tabs">
+              <button
+                className={`tab-btn ${
+                  selectedTab === "candidates" ? "active" : ""
+                }`}
+                onClick={() => setSelectedTab("candidates")}
+              >
+                <FaUser /> By Candidate
+              </button>
+              <button
+                className={`tab-btn ${
+                  selectedTab === "parties" ? "active" : ""
+                }`}
+                onClick={() => setSelectedTab("parties")}
+              >
+                <FaUsers /> By Party
+              </button>
+            </div>
+
+            <div className="vote-options">
+              {selectedTab === "candidates"
+                ? vote.candidates.map((candidate) => (
+                    <VoteOption
+                      key={candidate.id}
+                      id={candidate.id}
+                      title={candidate.name}
+                      subtitle={candidate.party}
+                      isSelected={selectedOption === candidate.id}
+                      onSelect={setSelectedOption}
+                    />
+                  ))
+                : vote.parties.map((party) => (
+                    <VoteOption
+                      key={party.id}
+                      id={party.id}
+                      title={party.name}
+                      subtitle="All party candidates"
+                      isSelected={selectedOption === party.id}
+                      onSelect={setSelectedOption}
+                    />
+                  ))}
+            </div>
+
+            <div className="vote-actions">
+              <button
+                className="submit-vote-btn"
+                disabled={!selectedOption}
+                onClick={handleVoteSubmit}
+              >
+                Submit Vote
+              </button>
+            </div>
+          </>
+        )}
       </div>
-
-      {hasVoted ? (
-        <div className="vote-confirmation">
-          <FaCheck className="success-icon" />
-          <h2>Your vote has been submitted!</h2>
-          <p>Thank you for participating in this election.</p>
-          <button className="view-results-btn">View Preliminary Results</button>
-        </div>
-      ) : (
-        <>
-          <div className="vote-tabs">
-            <button
-              className={`tab-btn ${
-                selectedTab === "candidates" ? "active" : ""
-              }`}
-              onClick={() => setSelectedTab("candidates")}
-            >
-              <FaUser /> By Candidate
-            </button>
-            <button
-              className={`tab-btn ${selectedTab === "parties" ? "active" : ""}`}
-              onClick={() => setSelectedTab("parties")}
-            >
-              <FaUsers /> By Party
-            </button>
-          </div>
-
-          <div className="vote-options">
-            {selectedTab === "candidates"
-              ? vote.candidates.map((candidate) => (
-                  <VoteOption
-                    key={candidate.id}
-                    id={candidate.id}
-                    title={candidate.name}
-                    subtitle={candidate.party}
-                    isSelected={selectedOption === candidate.id}
-                    onSelect={setSelectedOption}
-                  />
-                ))
-              : vote.parties.map((party) => (
-                  <VoteOption
-                    key={party.id}
-                    id={party.id}
-                    title={party.name}
-                    subtitle="All party candidates"
-                    isSelected={selectedOption === party.id}
-                    onSelect={setSelectedOption}
-                  />
-                ))}
-          </div>
-
-          <div className="vote-actions">
-            <button
-              className="submit-vote-btn"
-              disabled={!selectedOption}
-              onClick={handleVoteSubmit}
-            >
-              Submit Vote
-            </button>
-          </div>
-        </>
-      )}
     </div>
   );
 };

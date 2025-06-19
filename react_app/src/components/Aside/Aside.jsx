@@ -165,7 +165,7 @@ const Aside = ({
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -257,7 +257,7 @@ const Aside = ({
             <FaBell />
             <span className="notification-badge">{unreadCount}</span>
           </button>
-          <div className="user-profile" onClick={() => navigation("/profile")}>
+          <div className="user-profile" onClick={() => navigate("/profile")}>
             <FaUser />
           </div>
         </div>
@@ -299,7 +299,7 @@ const Aside = ({
             </button>
             <button
               className="user-profile-btn"
-              onClick={() => navigation("/profile")}
+              onClick={() => navigate("/profile")}
             >
               <FaUser /> My Profile
             </button>

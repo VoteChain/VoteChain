@@ -1,11 +1,13 @@
 .voting-page {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 20px;
   font-family: "Inter", sans-serif;
   color: var(--color-gray-800);
 }
-.voting-page .vote-header {
+.voting-page .voting-page-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.voting-page .voting-page-content .vote-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -13,29 +15,29 @@
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-gray-200);
 }
-.voting-page .vote-header .vote-meta h1 {
+.voting-page .voting-page-content .vote-header .vote-meta h1 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
   color: var(--color-primary-700);
 }
-.voting-page .vote-header .vote-meta .creator {
+.voting-page .voting-page-content .vote-header .vote-meta .creator {
   color: var(--color-gray-600);
   font-size: 0.9rem;
   margin-bottom: 1rem;
 }
-.voting-page .vote-header .vote-meta .description {
+.voting-page .voting-page-content .vote-header .vote-meta .description {
   color: var(--color-gray-700);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
-.voting-page .vote-header .vote-meta .time-info {
+.voting-page .voting-page-content .vote-header .vote-meta .time-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   color: var(--color-gray-600);
   font-size: 0.9rem;
 }
-.voting-page .vote-header .watchlist-btn {
+.voting-page .voting-page-content .vote-header .watchlist-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -46,22 +48,22 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.voting-page .vote-header .watchlist-btn:hover {
+.voting-page .voting-page-content .vote-header .watchlist-btn:hover {
   background: var(--color-gray-200);
 }
-.voting-page .vote-header .watchlist-btn.watching {
+.voting-page .voting-page-content .vote-header .watchlist-btn.watching {
   background: var(--color-primary-100);
   color: var(--color-primary-700);
   border-color: var(--color-primary-200);
 }
-.voting-page .vote-tabs {
+.voting-page .voting-page-content .vote-tabs {
   display: flex;
   gap: 1rem;
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--color-gray-200);
   padding-bottom: 0.5rem;
 }
-.voting-page .vote-tabs .tab-btn {
+.voting-page .voting-page-content .vote-tabs .tab-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -73,19 +75,19 @@
   color: var(--color-gray-600);
   border-radius: 6px;
 }
-.voting-page .vote-tabs .tab-btn.active {
+.voting-page .voting-page-content .vote-tabs .tab-btn.active {
   background: var(--color-primary-100);
   color: var(--color-primary-700);
 }
-.voting-page .vote-tabs .tab-btn:hover:not(.active) {
+.voting-page .voting-page-content .vote-tabs .tab-btn:hover:not(.active) {
   background: var(--color-gray-100);
 }
-.voting-page .vote-options {
+.voting-page .voting-page-content .vote-options {
   display: grid;
   gap: 1rem;
   margin-bottom: 2rem;
 }
-.voting-page .vote-actions .submit-vote-btn {
+.voting-page .voting-page-content .vote-actions .submit-vote-btn {
   width: 100%;
   padding: 1rem;
   background: var(--color-primary-600);
@@ -97,32 +99,32 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.voting-page .vote-actions .submit-vote-btn:hover {
+.voting-page .voting-page-content .vote-actions .submit-vote-btn:hover {
   background: var(--color-primary-700);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(111, 92, 255, 0.2);
 }
-.voting-page .vote-actions .submit-vote-btn:disabled {
+.voting-page .voting-page-content .vote-actions .submit-vote-btn:disabled {
   background: var(--color-gray-300);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
-.voting-page .vote-confirmation {
+.voting-page .voting-page-content .vote-confirmation {
   text-align: center;
   padding: 3rem 0;
 }
-.voting-page .vote-confirmation .success-icon {
+.voting-page .voting-page-content .vote-confirmation .success-icon {
   font-size: 3rem;
   color: var(--color-secondary-600);
   margin-bottom: 1rem;
 }
-.voting-page .vote-confirmation h2 {
+.voting-page .voting-page-content .vote-confirmation h2 {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--color-secondary-700);
 }
-.voting-page .vote-confirmation .view-results-btn {
+.voting-page .voting-page-content .vote-confirmation .view-results-btn {
   margin-top: 1.5rem;
   padding: 0.8rem 1.5rem;
   background: var(--color-secondary-100);
@@ -133,7 +135,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.voting-page .vote-confirmation .view-results-btn:hover {
+.voting-page .voting-page-content .vote-confirmation .view-results-btn:hover {
   background: var(--color-secondary-200);
 }
 
