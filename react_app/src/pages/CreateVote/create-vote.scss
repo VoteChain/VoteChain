@@ -1,9 +1,13 @@
 .create-vote-page {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    padding: 20px;
     font-family: 'Inter', sans-serif;
     color: var(--color-gray-800);
+
+    .create-vote-content {
+        padding: 2rem 0;
+        max-width: 800px;
+        margin: 0 auto;
+    }
 
     .create-header {
         margin-bottom: 2rem;

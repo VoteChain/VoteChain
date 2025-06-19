@@ -1,9 +1,11 @@
 .about-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  padding: 20px;
   color: var(--color-gray-800);
   font-family: "Inter", sans-serif;
+}
+.about-page .about-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .about-page .about-hero {
   text-align: center;
