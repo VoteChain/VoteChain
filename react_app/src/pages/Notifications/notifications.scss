@@ -1,8 +1,14 @@
 /* Notifications Page Styles */
 .notifications-page {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+
+
+    padding: 20px;
+
+    .notifications-page-content {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
 
 
     .page-header {

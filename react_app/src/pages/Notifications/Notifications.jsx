@@ -1,9 +1,14 @@
 // NotificationsPage.js
-import { FaBell, FaCheck, FaVoteYea } from "react-icons/fa";
+import { FaBars, FaBell, FaCheck, FaVoteYea } from "react-icons/fa";
 import "./notifications.css";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { TbArrowBackUp, TbBackground, TbHomeFilled } from "react-icons/tb";
 
 const NotificationsPage = () => {
+  // Use navigate
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -69,30 +74,36 @@ const NotificationsPage = () => {
 
   return (
     <div className="notifications-page">
-      <div className="page-header">
-        <FaBell className="header-icon" />
-        <h1>Notifications</h1>
-        <button onClick={markAllAsRead} className="mark-all-read">
-          Mark all as read
-        </button>
-      </div>
+      {/* <TbHomeFilled className="header-icon" /> */}
+      <TbArrowBackUp onClick={() => navigate(-1)} className="header-icon" />
+      <div className="notifications-page-content">
+        <div className="page-header">
+          <FaBell className="header-icon" />
+          <h1>Notifications</h1>
+          <button onClick={markAllAsRead} className="mark-all-read">
+            Mark all as read
+          </button>
+        </div>
 
-      <div className="notification-list">
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className={`notification-item ${notification.read ? "" : "unread"}`}
-          >
-            <div className="item-icon">
-              {notification.type === "vote" ? <FaVoteYea /> : <FaCheck />}
+        <div className="notification-list">
+          {notifications.map((notification) => (
+            <div
+              key={notification.id}
+              className={`notification-item ${
+                notification.read ? "" : "unread"
+              }`}
+            >
+              <div className="item-icon">
+                {notification.type === "vote" ? <FaVoteYea /> : <FaCheck />}
+              </div>
+              <div className="item-content">
+                <h3>{notification.title}</h3>
+                <p className="time">{notification.time}</p>
+              </div>
+              {!notification.read && <span className="unread-dot"></span>}
             </div>
-            <div className="item-content">
-              <h3>{notification.title}</h3>
-              <p className="time">{notification.time}</p>
-            </div>
-            {!notification.read && <span className="unread-dot"></span>}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
