@@ -137,7 +137,7 @@
 // //   </StyledAside>
 // // );
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaVoteYea,
@@ -149,9 +149,13 @@ import {
   FaChartBar,
   FaInfoCircle,
   FaCheck,
+  FaSignInAlt,
 } from "react-icons/fa";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
+
+// Context
+import { useNear } from "../../contexts/NearContext";
 
 import "./aside.css";
 
@@ -163,6 +167,9 @@ const Aside = ({
     { path: "/about", name: "About", icon: <FaInfoCircle /> },
   ],
 }) => {
+  // Get some contexts
+  const { signIn, accountId, isLoading } = useNear();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -257,9 +264,16 @@ const Aside = ({
             <FaBell />
             <span className="notification-badge">{unreadCount}</span>
           </button>
-          <div className="user-profile" onClick={() => navigate("/profile")}>
-            <FaUser />
-          </div>
+
+          {accountId ? (
+            <div className="user-profile" onClick={() => navigate("/profile")}>
+              <FaUser />
+            </div>
+          ) : (
+            <div className="user-profile" onClick={() => signIn()}>
+              <FaSignInAlt />
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -297,12 +311,18 @@ const Aside = ({
               <FaBell />
               <span className="notification-badge">{unreadCount}</span>
             </button>
-            <button
-              className="user-profile-btn"
-              onClick={() => navigate("/profile")}
-            >
-              <FaUser /> My Profile
-            </button>
+            {accountId ? (
+              <button
+                className="user-profile-btn"
+                onClick={() => navigate("/profile")}
+              >
+                <FaUser /> My Profile
+              </button>
+            ) : (
+              <button className="user-profile-btn" onClick={() => signIn()}>
+                <FaSignInAlt /> Sign In
+              </button>
+            )}
           </div>
         </div>
       )}

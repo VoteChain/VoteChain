@@ -74,7 +74,6 @@ const NotificationsPage = () => {
 
   return (
     <div className="notifications-page">
-      {/* <TbHomeFilled className="header-icon" /> */}
       <TbArrowBackUp onClick={() => navigate(-1)} className="header-icon" />
       <div className="notifications-page-content">
         <div className="page-header">

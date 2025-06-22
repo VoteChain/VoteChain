@@ -14,17 +14,25 @@ import { MdEmail } from "react-icons/md";
 import "./profile.css";
 import { IoCreateOutline } from "react-icons/io5";
 import Aside from "../../components/Aside/Aside";
+import { useNear } from "../../contexts/NearContext";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile = () => {
+  // Get some contexts
+  const { accountId, account, isLoading, signOut } = useNear();
+
+  // Use navigate
+  const navigate = useNavigate();
+
   // Mock user data - replace with actual user data from your backend/context
   const [userData, setUserData] = useState({
-    name: "Alex Johnson",
+    name: accountId,
     email: "alex.johnson@example.com",
     joinDate: "January 15, 2022",
     bio: "Community member and active voter in DAO governance",
     votesParticipated: 24,
     votesCreated: 5,
-    walletAddress: "0x71C7656EC7ab88b098defB751B7401B5f6d8976F",
+    walletAddress: account?.publicKey,
   });
 
   const [activeTab, setActiveTab] = useState("profile");
@@ -81,13 +89,22 @@ const MyProfile = () => {
     setIsEditing(false);
   };
 
+  const handleLogOut = async () => {
+    signOut();
+    navigate("/");
+  };
+
   return (
     <div className="profile-page">
       <Aside />
       <div className="profile-page-content">
         <div className="profile-header">
           <div className="avatar">
-            <FaUser />
+            {/* <FaUser /> */}
+            <img
+              src="https://i.near.social/magic/large/https://near.social/magic/img/account/default"
+              alt=""
+            />
           </div>
           <div className="user-info">
             {isEditing ? (
@@ -262,7 +279,7 @@ const MyProfile = () => {
                   <button className="delete-btn">
                     <FaTimes /> Delete Account
                   </button>
-                  <button className="logout-btn">
+                  <button className="logout-btn" onClick={handleLogOut}>
                     <FaSignOutAlt /> Log Out
                   </button>
                 </div>

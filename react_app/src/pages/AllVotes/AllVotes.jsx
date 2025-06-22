@@ -27,6 +27,7 @@ import Button from "../../components/Button/Button";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoCreateOutline } from "react-icons/io5";
 import { camelCaseToNormal, getVoteStatus } from "../../scripts/functions";
+import { useNear } from "../../contexts/NearContext";
 
 // Pages in Navbar
 const pages = [
@@ -46,6 +47,9 @@ const FILTERTYPES = {
 };
 
 function AllVotes() {
+  // Get some context
+  const { accountId } = useNear();
+
   // Get search Params
   const [searchParams] = useSearchParams();
   // Using Navigation
@@ -109,7 +113,7 @@ function AllVotes() {
       name: "Department Chair Election",
       desc: "Faculty members elect the next chair of the Computer Science Department.",
       role: "Faculty only",
-      creator: "abnakore.near",
+      creator: "aaanakore.testnet",
       openOn: "2025-06-03T08:00:00Z",
       closeOn: "2025-07-03T15:00:00Z",
       createdOn: "2025-05-30T08:30:00Z",
@@ -126,7 +130,7 @@ function AllVotes() {
       name: "Product Feature Priority",
       desc: "Customers rank which feature we should build next.",
       role: "Customer advisory board",
-      creator: "abnakore.near",
+      creator: "aaanakore.testnet",
       openOn: "2025-05-25T09:00:00Z",
       closeOn: "2025-06-10T12:00:00Z",
       createdOn: "2025-05-15T14:20:00Z",
@@ -187,7 +191,7 @@ function AllVotes() {
       name: "Neighborhood Logo Contest",
       desc: "Residents pick the winning logo for the community re-branding.",
       role: "Residents",
-      creator: "abnakore.near",
+      creator: "aaanakore.testnet",
       openOn: "2025-06-02T00:00:00Z",
       closeOn: "2025-06-05T20:00:00Z",
       createdOn: "2025-05-31T16:45:00Z",
@@ -205,7 +209,7 @@ function AllVotes() {
   const [watchlist, setWatchlist] = useState([1, 4, 3]);
 
   // Get the logged in User
-  const [userName, setUserName] = useState("abnakore.near");
+  // const [userName, setUserName] = useState("aaanakore.testnet");
 
   // Effects
   // Change tab whenever searchParams change
@@ -276,7 +280,7 @@ function AllVotes() {
   const filterByTab = async (votes, tab) => {
     if (tab === TABS.my) {
       // Filter the votes created by the user
-      return votes.filter((vote) => vote.creator === userName);
+      return votes.filter((vote) => vote.creator === accountId);
     } else if (tab === TABS.watchlist) {
       // Filter the votes that are in the user's watchlist
       return votes.filter((vote) => watchlist.includes(vote.id));

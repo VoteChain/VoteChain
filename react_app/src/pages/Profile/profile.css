@@ -28,6 +28,11 @@
   color: var(--color-primary-700);
   flex-shrink: 0;
 }
+.profile-page .profile-header .avatar img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
 .profile-page .profile-header .user-info {
   flex-grow: 1;
 }
