@@ -1,0 +1,35 @@
+# name: Test VoteChain
+
+# on: [push, pull_request]
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: '16'
+#       - run: npm install
+#       - run: npm test
+#       - name: Upload coverage
+#         uses: codecov/codecov-action@v1
+
+name: Test VoteChain
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          src: near-contract/src/contract.ts
+          out: build/contract.wasm
+      - run: npm install
+      - run: npm test
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
