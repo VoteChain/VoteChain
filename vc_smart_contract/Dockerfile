@@ -16,28 +16,45 @@
 
 # Define the default command (replace with your contract's deployment steps)
 # CMD ["./deploy.sh"]
-FROM  --platform=linux/amd64 node:22
-
-# RUN apk add --no-cache python3 make g++
-
-WORKDIR /contract
 
 
-# Install dependencies including curl
-# RUN apt-get update && apt-get install -y curl
+# FROM  --platform=linux/amd64 node:22
 
-COPY package*.json ./
+# # RUN apk add --no-cache python3 make g++
 
-# RUN npm install -g -f near-cli-rs@latest
-RUN npm install -g npm@latest
-RUN npm install --ignore-script
+# WORKDIR /contract
 
-COPY . .
 
-EXPOSE 3030
+# # Install dependencies including curl
+# # RUN apt-get update && apt-get install -y curl
+
+# COPY package*.json ./
+
+# # RUN npm install -g -f near-cli-rs@latest
+# RUN npm install -g npm@latest
+# RUN npm install --ignore-script
+
+# COPY . .
+
+# EXPOSE 3030
 # CMD npm run test
 
 
     # "ava": "^6.1.3",
     # "near-workspaces": "^4.0.0",
     # "typescript": "^5.4.5"
+
+FROM --platform=linux/amd64 node:18
+
+# Install Rust toolchain (required even for TS contracts)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN rustup target add wasm32-unknown-unknown
+
+WORKDIR /contract
+
+COPY package*.json ./
+RUN npm install --force  # Required for near-sdk-js
+
+COPY . .
+RUN npm run build

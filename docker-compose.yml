@@ -1,24 +1,20 @@
 services:
-  smart_contracts:
-    platform: linux/amd64 # Force the service to run in x86_64 mode
+  contract:
 
+    build: ./near-contract
+  
     container_name: vc_smart_contracts
-
-    build: ./smart_contracts
-
+  
     image: smart_contracts:vc
-
-    ports:
-      - "3030:3030"
-
+  
     volumes:
-      - ./smart_contracts:/contract
-
-    networks:
-      - vc_network
+      - ./near-contract/build:/contract/build
+  
+    environment:
+      - NEAR_ENV=testnet
 
   frontend:
-    container_name: react_app
+    container_name: vc_react_app
 
     build:
       context: ./react_app
@@ -50,7 +46,7 @@ services:
           action: rebuild
 
     depends_on:
-      - smart_contracts
+      - contract
 
 volumes:
   node_modules:
