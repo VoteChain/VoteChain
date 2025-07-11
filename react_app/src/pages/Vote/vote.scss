@@ -1,0 +1,170 @@
+.voting-page {
+    // max-width: 800px;
+    // margin: 2rem auto;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-gray-800);
+
+    .voting-page-content {
+        max-width: 800px;
+        margin: 0 auto;
+
+
+        .vote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 2rem 0;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-gray-200);
+
+            .vote-meta {
+                h1 {
+                    font-size: 1.8rem;
+                    margin-bottom: 0.5rem;
+                    color: var(--color-primary-700);
+                }
+
+                .creator {
+                    color: var(--color-gray-600);
+                    font-size: 0.9rem;
+                    margin-bottom: 1rem;
+                }
+
+                .description {
+                    color: var(--color-gray-700);
+                    line-height: 1.6;
+                    margin-bottom: 1rem;
+                }
+
+                .time-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: var(--color-gray-600);
+                    font-size: 0.9rem;
+                }
+            }
+
+            .watchlist-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: var(--color-gray-100);
+                border: 1px solid var(--color-gray-300);
+                border-radius: 50px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: var(--color-gray-200);
+                }
+
+                &.watching {
+                    background: var(--color-primary-100);
+                    color: var(--color-primary-700);
+                    border-color: var(--color-primary-200);
+                }
+            }
+        }
+
+        .vote-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--color-gray-200);
+            padding-bottom: 0.5rem;
+
+            .tab-btn {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem 1rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font-weight: 500;
+                color: var(--color-gray-600);
+                border-radius: 6px;
+
+                &.active {
+                    background: var(--color-primary-100);
+                    color: var(--color-primary-700);
+                }
+
+                &:hover:not(.active) {
+                    background: var(--color-gray-100);
+                }
+            }
+        }
+
+        .vote-options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+
+        }
+
+        .vote-actions {
+            .submit-vote-btn {
+                width: 100%;
+                padding: 1rem;
+                background: var(--color-primary-600);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: var(--color-primary-700);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(111, 92, 255, 0.2);
+                }
+
+                &:disabled {
+                    background: var(--color-gray-300);
+                    cursor: not-allowed;
+                    transform: none;
+                    box-shadow: none;
+                }
+            }
+        }
+
+        .vote-confirmation {
+            text-align: center;
+            padding: 3rem 0;
+
+            .success-icon {
+                font-size: 3rem;
+                color: var(--color-secondary-600);
+                margin-bottom: 1rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+                color: var(--color-secondary-700);
+            }
+
+            .view-results-btn {
+                margin-top: 1.5rem;
+                padding: 0.8rem 1.5rem;
+                background: var(--color-secondary-100);
+                color: var(--color-secondary-700);
+                border: 1px solid var(--color-secondary-300);
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background: var(--color-secondary-200);
+                }
+            }
+        }
+    }
+}

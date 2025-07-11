@@ -1,0 +1,46 @@
+.detail-card {
+  border-radius: 10px;
+  padding: 20px;
+}
+.detail-card.green {
+  background-color: var(--color-secondary-50);
+  border: 1px solid var(--color-secondary-100);
+}
+.detail-card.green span,
+.detail-card.green svg {
+  color: var(--color-secondary-600);
+}
+.detail-card.green .amount {
+  color: var(--color-secondary-800);
+}
+.detail-card.blue {
+  background-color: var(--color-primary-50);
+  border: 1px solid var(--color-primary-100);
+}
+.detail-card.blue span,
+.detail-card.blue svg {
+  color: var(--color-primary-600);
+}
+.detail-card.blue .amount {
+  color: var(--color-primary-800);
+}
+.detail-card .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.detail-card .title span {
+  font-size: 14px;
+}
+.detail-card .title svg {
+  font-size: 15px;
+}
+.detail-card .amount {
+  font-size: 25px;
+}
+.detail-card .desc {
+  font-size: 13px;
+}
+
+/*# sourceMappingURL=detail-card.css.map */

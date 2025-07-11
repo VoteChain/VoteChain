@@ -1,0 +1,257 @@
+%white-button {
+    position: relative;
+    height: 40px;
+    line-height: 28px;
+    padding: 0 20px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    background-color: var(--color-gray-100);
+    border: 1px solid var(--color-gray-300);
+    color: #0d0c22;
+    transition: .3s ease;
+    text-wrap: nowrap;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
+
+    &:hover {
+        border-color: rgba(51, 16, 29, 0.4);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(57, 18, 33, 0.1);
+    }
+}
+
+.all-votes {
+    padding: 20px 20px;
+
+    .aside-div {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .profile-tabs {
+        display: flex;
+        border-bottom: 1px solid var(--color-gray-200);
+        margin-top: 2rem;
+        flex-wrap: wrap;
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            flex-wrap: nowrap;
+            text-wrap: nowrap;
+
+            &:hover {
+                color: var(--color-primary-700);
+            }
+
+            &.active {
+                color: var(--color-primary-700);
+                border-bottom-color: var(--color-primary-700);
+            }
+        }
+    }
+
+    .quick-actions {
+        padding: 20px 0px;
+        gap: 10px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+
+        /* From Uiverse.io by alexruix */
+        .search-bar {
+            display: flex;
+            line-height: 30px;
+            align-items: center;
+            position: relative;
+            max-width: 400px;
+            flex-grow: 1;
+
+            .input {
+                width: 100%;
+                height: 50px;
+                line-height: 28px;
+                padding: 0 1rem;
+                padding-left: 2.5rem;
+                border: 2px solid transparent;
+                border-radius: 8px;
+                outline: none;
+                background-color: var(--color-gray-50);
+                border: 1px solid var(--color-gray-300);
+                color: #0d0c22;
+                transition: .3s ease;
+                font-size: 14px;
+            }
+
+            .input::placeholder {
+                color: #9e9ea7;
+            }
+
+            .input:focus,
+            input:hover {
+                outline: none;
+                border-color: rgba(51, 16, 29, 0.4);
+                background-color: #fff;
+                box-shadow: 0 0 0 4px rgba(57, 18, 33, 0.1);
+            }
+
+            .icon {
+                position: absolute;
+                left: 1rem;
+                fill: #9e9ea7;
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+
+        .filter-div {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex-wrap: wrap;
+
+            .filter-btn {
+                @extend %white-button;
+
+                .filter-badge {
+                    position: absolute;
+                    top: -8px;
+                    right: -8px;
+                    background: #ff4444;
+                    color: white;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+            }
+
+            .filter-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 1000;
+
+                &.show {
+                    display: block;
+                }
+
+                .white-button {
+                    @extend %white-button;
+
+                    &:disabled {
+                        opacity: .5;
+
+                        &:hover {
+                            border-color: rgba(255, 1, 5, 0.477);
+                            background-color: #fff;
+                        }
+                    }
+                }
+
+                .modal-content {
+                    background: var(--color-gray-50);
+                    margin: 15% auto;
+                    padding: 20px;
+                    width: 400px;
+                    border-radius: 8px;
+
+                    .modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        border-bottom: 1px solid #ddd;
+                        padding-bottom: 10px;
+                    }
+
+                    .active-filters {
+                        margin: 15px 0;
+                        min-height: 100px;
+                        max-height: 200px;
+                        overflow-y: auto;
+                    }
+
+                    .filter-item {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 8px;
+                        margin: 5px 0;
+                        background: #f5f5f5;
+                        border-radius: 4px;
+                    }
+
+                    .add-filter {
+                        display: flex;
+                        gap: 10px;
+                        margin: 15px 0;
+                        align-items: center;
+                        justify-content: space-around;
+
+                        select,
+                        input {
+                            @extend %white-button;
+                            width: 100%;
+                        }
+                    }
+
+                    .modal-footer {
+                        border-top: 1px solid #ddd;
+                        padding-top: 15px;
+                        text-align: right;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: 10px;
+                    }
+
+                    .close {
+                        cursor: pointer;
+                        font-size: 24px;
+                    }
+                }
+
+
+            }
+
+
+        }
+
+
+    }
+
+    .votes-list {
+        display: grid;
+        // grid-auto-flow: column;
+        grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+        gap: 20px;
+    }
+}

@@ -1,0 +1,135 @@
+.vote-card {
+    background-color: var(--color-gray-50);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--color-gray-300);
+
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    &-header {
+        padding: 20px;
+        border-bottom: 1px solid var(--color-gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .vote-info {
+            a {
+
+                text-decoration: none;
+            }
+
+            .vote-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 8px;
+                color: var(--color-gray-800);
+            }
+
+            .vote-desc {
+                font-size: 1rem;
+                color: var(--color-gray-600);
+                line-height: 1.5;
+            }
+        }
+
+        .vote-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+
+            &.tag-active {
+                background-color: var(--color-secondary-100);
+                color: var(--color-secondary-800);
+            }
+
+            &.tag-upcoming {
+                background-color: var(--color-primary-100);
+                color: var(--color-primary-800);
+            }
+
+            &.tag-ended {
+                background-color: var(--color-gray-200);
+                color: var(--color-gray-700);
+            }
+        }
+    }
+
+    .vote-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 20px;
+        background-color: var(--color-gray-100);
+
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .stat-label {
+                font-size: 0.9rem;
+                color: var(--color-gray-600);
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+                font-weight: 700;
+                color: var(--color-gray-800);
+            }
+        }
+    }
+
+    .vote-footer {
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--color-gray-50);
+        border-top: 1px solid var(--color-gray-200);
+
+        .vote-date {
+            font-size: 0.9rem;
+            color: var(--color-gray-600);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vote-actions {
+            display: flex;
+            gap: 10px;
+
+            .action-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--color-gray-200);
+                color: var(--color-gray-700);
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: var(--color-primary-100);
+                    color: var(--color-primary-700);
+                }
+            }
+        }
+    }
+}
