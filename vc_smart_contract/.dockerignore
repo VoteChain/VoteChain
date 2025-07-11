@@ -1,6 +1,0 @@
-node_modules
-Dockerfile
-.env
-.gitignore
-npm-debug.log
-.DS_Store
