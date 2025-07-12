@@ -15,6 +15,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 // Wallet Selector
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
+import { useWalletSelector } from "@near-wallet-selector/react-hook";
 // Near api js
 import * as nearAPI from "near-api-js";
 
@@ -25,12 +26,22 @@ import {
   CONTRACT_CONFIG,
 } from "../config/near-config";
 
+import { Buffer } from "buffer";
+window.Buffer = Buffer; // Make Buffer globally available (ReferenceError: Buffer is not defined)
+
 // Create React Context for NEAR integration
 const NearContext = createContext();
 
-export default function NearProvider({ children }) {
+export default function InnerNearProvider({ children }) {
   // Get modules
   const { connect, keyStores, Signer } = nearAPI;
+  const {
+    viewFunction: nearViewFunction,
+    callFunction: nearCallFunction,
+    walletSelector,
+    signedAccountId,
+  } = useWalletSelector();
+  // const { selector } = useWalletSelector(); // Now you can access selector
 
   // State management for NEAR connection
   const [near, setNear] = useState(null);
@@ -69,10 +80,12 @@ export default function NearProvider({ children }) {
         const nearConnection = await connect(nearConfig);
 
         // Initialize wallet connection
-        const selectorCon = await setupWalletSelector({
-          network: NETWORK_ID,
-          modules: [setupMyNearWallet()],
-        });
+        // const selectorCon = await setupWalletSelector({
+        //   network: NETWORK_ID,
+        //   modules: [setupMyNearWallet()],
+        // });
+
+        const selectorCon = await walletSelector;
 
         const walletConnection = await selectorCon.wallet("my-near-wallet");
 
@@ -103,21 +116,31 @@ export default function NearProvider({ children }) {
     initNear();
   }, []);
 
-  const getAccount = (selectorCon = selector) => {
-    const accounts = selectorCon.store.getState().accounts;
+  // Get Account everytime wallet changes
+  useEffect(() => {
+    getAccount();
+  }, [wallet]);
+
+  const getAccount = async (selectorCon = selector) => {
+    // const accounts = selectorCon.store.getState().accounts;
+    const accounts = await wallet?.getAccounts();
 
     // ✅ Return the first account if signed in, else null
-    const acc = accounts.length > 0 ? accounts[0] : null;
+    const acc = accounts?.length > 0 ? accounts[0] : null;
     setAccount(acc);
     setAccountId(acc?.accountId);
-    return accounts.length > 0 ? accounts[0].accountId : null;
+
+    console.log(acc);
+
+    return signedAccountId;
+    return accounts?.length > 0 ? accounts[0].accountId : null;
   };
 
   // Handle user sign in
-  const signIn = () => {
+  const signIn = async () => {
     try {
       // 🚀 Request sign-in
-      wallet.signIn({
+      await wallet.signIn({
         contractId: CONTRACT_NAME,
         // methodNames: ["vote", "getVotes"], // Optional: restrict access to these methods
         successUrl: window.location.href, // Redirect here after login success
@@ -151,6 +174,86 @@ export default function NearProvider({ children }) {
     }
   };
 
+  const getGreeting = async () => {
+    return await nearViewFunction({
+      contractId: CONTRACT_NAME,
+      method: "get_greeting",
+    });
+  };
+
+  const setGreeting = async () => {
+    const accountId = await getAccount();
+    if (!accountId) return new Error("Connect Wallet");
+
+    try {
+      // const result = await wallet.signAndSendTransaction({
+      //   signerId: accountId,
+      //   receiverId: CONTRACT_NAME,
+      //   actions: [
+      //     {
+      //       type: "FunctionCall",
+      //       params: {
+      //         methodName: "set_greeting",
+      //         args: { greeting: "Howdy" },
+      //         gas: "30000000000000", // 30 Tgas
+      //         deposit: "0",
+      //       },
+      //     },
+      //   ],
+      // });
+      nearCallFunction({
+        contractId: CONTRACT_NAME,
+        method: "set_greeting",
+        args: { greeting: "Hollla" },
+      }).then(async (resp) => {
+        console.log(resp);
+        const greet = await getGreeting();
+        console.log(greet, "<< new greet");
+      });
+    } catch (err) {
+      console.error("Failed to call contract: ", err);
+    }
+  };
+
+  // View Function
+  const viewFunction = async (
+    methodName,
+    args = {},
+    contractId = CONTRACT_NAME
+  ) => {
+    try {
+      const result = await nearViewFunction({
+        contractId: contractId,
+        method: methodName,
+        args: args,
+      });
+
+      return result;
+    } catch (error) {
+      console.error(`Error while calling view method ${methodName}: `, error);
+    }
+  };
+
+  // Call Function
+  const callFunction = async (
+    methodName,
+    args = {},
+    contractId = CONTRACT_NAME
+  ) => {
+    // const accountId = await getAccount();
+    if (!accountId) return new Error("Connect Wallet");
+
+    try {
+      nearCallFunction({
+        contractId: contractId,
+        method: methodName,
+        args: args,
+      });
+    } catch (err) {
+      console.error("Failed to call contract: ", err);
+    }
+  };
+
   // Value provided to context consumers
   const value = {
     near, // NEAR connection instance
@@ -161,6 +264,8 @@ export default function NearProvider({ children }) {
     isLoading, // Loading state
     signIn, // Function to initiate sign in
     signOut, // Function to sign out
+    viewFunction,
+    callFunction,
   };
 
   return (

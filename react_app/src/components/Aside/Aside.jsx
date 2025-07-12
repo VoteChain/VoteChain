@@ -168,7 +168,17 @@ const Aside = ({
   ],
 }) => {
   // Get some contexts
-  const { signIn, accountId, isLoading } = useNear();
+  const { signIn, accountId, isLoading, viewFunction, callFunction } =
+    useNear();
+  const get = async () => {
+    const greet = await viewFunction("get_greeting", {
+      name: "Abdul",
+    });
+    console.log(greet, "<<<<Greet");
+  };
+  const set = async () => {
+    await callFunction("set_greeting", { greeting: "As salamu Alaykum" });
+  };
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -231,6 +241,8 @@ const Aside = ({
   return (
     <nav className="navbar">
       <div className="navbar-container">
+        {/* <button onClick={get}>Get</button>
+        <button onClick={set}>Set</button> */}
         {/* Logo */}
         <Link to="/" className="navbar-logo">
           {/* <FaVoteYea className="logo-icon" /> */}

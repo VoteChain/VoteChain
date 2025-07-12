@@ -2536,8 +2536,10 @@ let HelloNear = (_dec = NearBindgen({}), _dec2 = view(), _dec3 = call({}), _dec(
   };
   greeting = "Hello";
   // This method is read-only and can be called for free
-  get_greeting() {
-    return this.greeting;
+  get_greeting({
+    name = ""
+  }) {
+    return `${this.greeting} ${name}`;
   }
   // This method changes the state, for which it cost gas
   set_greeting({

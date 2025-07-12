@@ -10,8 +10,8 @@ class HelloNear {
   greeting: string = "Hello";
 
   @view({}) // This method is read-only and can be called for free
-  get_greeting(): string {
-    return this.greeting;
+  get_greeting({ name = "" }: { name: string }): string {
+    return `${this.greeting} ${name}`;
   }
 
   @call({}) // This method changes the state, for which it cost gas

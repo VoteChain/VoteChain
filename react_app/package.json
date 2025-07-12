@@ -13,6 +13,7 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@near-wallet-selector/core": "^9.0.3",
     "@near-wallet-selector/my-near-wallet": "^9.0.3",
+    "@near-wallet-selector/react-hook": "^9.0.3",
     "buffer": "^6.0.3",
     "install": "^0.13.0",
     "near-api-js": "^6.1.0",
