@@ -143,13 +143,13 @@ export default function InnerNearProvider({ children }) {
     // Get the user details if the account exist
     let user;
     if (acc) {
-      user = await viewFunction("get_user", {
+      user = await viewFunction(CONTRACT_CONFIG.viewMethods.getUser, {
         walletId: acc?.accountId,
       });
 
       if (!user) {
         // Add the user if not exist
-        await callFunction("add_user", {
+        await callFunction(CONTRACT_CONFIG.changeMethods.addUser, {
           walletId: acc?.accountId,
           name: acc?.accountId.split(".")[0],
           about: "",
@@ -158,7 +158,7 @@ export default function InnerNearProvider({ children }) {
         await new Promise((res) => setTimeout(res, 1500));
 
         // Get the added user
-        user = await viewFunction("get_user", {
+        user = await viewFunction(CONTRACT_CONFIG.viewMethods.getUser, {
           walletId: acc?.accountId,
         });
       }
@@ -212,13 +212,17 @@ export default function InnerNearProvider({ children }) {
   };
 
   // View Function
-  // !!! check if the function exist and is a view function
   const viewFunction = async (
     methodName,
     args = {},
     contractId = CONTRACT_NAME
   ) => {
     try {
+      // check if the function exist and is a view method
+      if (!Object.values(CONTRACT_CONFIG.viewMethods).includes(methodName)) {
+        return new Error("methodName is not valid viewMethod");
+      }
+
       const result = await nearViewFunction({
         contractId: contractId,
         method: methodName,
@@ -232,7 +236,6 @@ export default function InnerNearProvider({ children }) {
   };
 
   // Call Function
-  // !!! check if the function exist and is a call function
   const callFunction = async (
     methodName,
     args = {},
@@ -240,6 +243,11 @@ export default function InnerNearProvider({ children }) {
   ) => {
     // const accountId = await getAccount();
     if (!accountId) return new Error("Connect Wallet");
+
+    // check if the function exist and is a call method
+    if (!Object.values(CONTRACT_CONFIG.changeMethods).includes(methodName)) {
+      return new Error("methodName is not valid changeMethod");
+    }
 
     try {
       await nearCallFunction({
