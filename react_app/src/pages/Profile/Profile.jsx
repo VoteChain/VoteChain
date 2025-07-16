@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FaUser,
   FaEdit,
@@ -15,32 +15,52 @@ import "./profile.css";
 import { IoCreateOutline } from "react-icons/io5";
 import Aside from "../../components/Aside/Aside";
 import { useNear } from "../../contexts/NearContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { formatDate } from "../../scripts/functions";
+import { CONTRACT_CONFIG } from "../../config/near-config";
 
 const MyProfile = () => {
   // Get some contexts
-  const { accountId, account, isLoading, signOut } = useNear();
+  const { accountId, account, isLoading, signOut, callFunction, getAccount } =
+    useNear();
 
   // Use navigate
   const navigate = useNavigate();
 
   // Mock user data - replace with actual user data from your backend/context
-  const [userData, setUserData] = useState({
-    name: accountId,
-    email: "alex.johnson@example.com",
-    joinDate: "January 15, 2022",
-    bio: "Community member and active voter in DAO governance",
-    votesParticipated: 24,
-    votesCreated: 5,
-    walletAddress: account?.publicKey,
-  });
+  const userData = useMemo(
+    () => ({
+      name: account?.name,
+      email: account?.email,
+      dateJoined: formatDate(account?.dateJoined),
+      about: account?.about,
+      votesParticipated: 24, // ???
+      votesCreated: 5, // ???
+      walletAddress: account?.walletId,
+    }),
+    [account]
+  );
 
   const [activeTab, setActiveTab] = useState("profile");
+  const [isUpdating, setIsUpdating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     name: userData.name,
-    bio: userData.bio,
+    about: userData.about,
+    email: userData.email,
   });
+
+  // Update the editForm whenever userData Changes
+  useEffect(
+    () =>
+      setEditForm({
+        ...editForm,
+        name: userData.name,
+        about: userData.about,
+        email: userData.email,
+      }),
+    [userData]
+  );
 
   // Mock voting history - replace with actual data
   const votingHistory = [
@@ -75,24 +95,43 @@ const MyProfile = () => {
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    setUserData((prev) => ({ ...prev, ...editForm }));
-    setIsEditing(false);
+  const handleSave = async () => {
+    // setUserData((prev) => ({ ...prev, ...editForm }));
+    if (!editForm.name || !editForm.about || !editForm.email) {
+      // ???
+      return alert("Please fill in all fields");
+    }
+    setIsUpdating(() => true);
+    const args = { walletId: userData.walletAddress, ...editForm };
+
+    console.log(args);
+    callFunction(CONTRACT_CONFIG.changeMethods.updateUser, args).then(() =>
+      getAccount()
+    );
+
+    setIsUpdating(false);
+
+    // setIsEditing(false);
     // Here you would typically send the updated data to your backend
   };
 
   const handleCancel = () => {
     setEditForm({
       name: userData.name,
-      bio: userData.bio,
+      about: userData.about,
     });
-    setIsEditing(false);
+    // setIsEditing(false);
   };
 
   const handleLogOut = async () => {
     signOut();
     navigate("/");
   };
+
+  // Return to home if not signed in
+  if (!accountId) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="profile-page">
@@ -107,18 +146,8 @@ const MyProfile = () => {
             />
           </div>
           <div className="user-info">
-            {isEditing ? (
-              <input
-                type="text"
-                name="name"
-                value={editForm.name}
-                onChange={handleEditChange}
-                className="edit-input"
-              />
-            ) : (
-              <h1>{userData.name}</h1>
-            )}
-            <p className="join-date">Member since {userData.joinDate}</p>
+            <h1>{userData.name}</h1>
+            <p className="join-date">Member since {userData.dateJoined}</p>
             <div className="stats">
               <div className="stat-item">
                 <FaVoteYea />
@@ -131,20 +160,12 @@ const MyProfile = () => {
             </div>
           </div>
           <div className="action-buttons">
-            {isEditing ? (
-              <>
-                <button onClick={handleSave} className="save-btn">
-                  <FaCheck /> Save
-                </button>
-                <button onClick={handleCancel} className="cancel-btn">
-                  <FaTimes /> Cancel
-                </button>
-              </>
-            ) : (
-              <button onClick={() => setIsEditing(true)} className="edit-btn">
-                <FaEdit /> Edit Profile
-              </button>
-            )}
+            <button
+              onClick={() => setActiveTab("settings")}
+              className="edit-btn"
+            >
+              <FaEdit /> Edit Profile
+            </button>
           </div>
         </div>
 
@@ -173,17 +194,8 @@ const MyProfile = () => {
           {activeTab === "profile" && (
             <div className="profile-section">
               <h2>About</h2>
-              {isEditing ? (
-                <textarea
-                  name="bio"
-                  value={editForm.bio}
-                  onChange={handleEditChange}
-                  className="edit-bio"
-                  rows={4}
-                />
-              ) : (
-                <p className="bio">{userData.bio}</p>
-              )}
+
+              <p className="bio">{userData.about}</p>
 
               <h2>Account Information</h2>
               <div className="info-grid">
@@ -191,7 +203,9 @@ const MyProfile = () => {
                   <div className="info-label">
                     <MdEmail /> Email
                   </div>
-                  <div className="info-value">{userData.email}</div>
+                  <div className="info-value">
+                    {userData.email || "No email"}
+                  </div>
                 </div>
                 <div className="info-item">
                   <div className="info-label">
@@ -253,20 +267,46 @@ const MyProfile = () => {
               <h2>Account Settings</h2>
 
               <div className="settings-card">
-                <h3>Change Password</h3>
+                <h3>Edit Profile</h3>
                 <div className="form-group">
-                  <label>Current Password</label>
-                  <input type="password" placeholder="Enter current password" />
+                  <label>Username</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your name"
+                    name="name"
+                    value={editForm.name}
+                    onChange={handleEditChange}
+                  />
                 </div>
                 <div className="form-group">
-                  <label>New Password</label>
-                  <input type="password" placeholder="Enter new password" />
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    placeholder="Enter your email"
+                    name="email"
+                    value={editForm.email}
+                    onChange={handleEditChange}
+                    className="edit-bio"
+                  />
                 </div>
                 <div className="form-group">
-                  <label>Confirm New Password</label>
-                  <input type="password" placeholder="Confirm new password" />
+                  <label>About</label>
+                  <textarea
+                    name="about"
+                    value={editForm.about}
+                    onChange={handleEditChange}
+                    className="edit-bio"
+                    placeholder="Brief about yourself"
+                    rows={4}
+                  />
                 </div>
-                <button className="update-btn">Update Password</button>
+                <button
+                  disabled={isUpdating}
+                  className="update-btn"
+                  onClick={handleSave}
+                >
+                  Update Profile
+                </button>
               </div>
 
               <div className="settings-card danger-zone">

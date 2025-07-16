@@ -1,4 +1,4 @@
-export const formatDate = (isoString) => {
+export const formatDateTime = (isoString) => {
   const date = new Date(isoString);
 
   const options = {
@@ -31,6 +31,20 @@ export const formatDate = (isoString) => {
   })(day);
 
   return formatted.replace(`${day}`, `${day}${suffix}`);
+};
+
+// convert near Timestamp to July 16, 2025 format
+export const formatDate = (Timestamp) => {
+  const nearTimestamp = Timestamp;
+  const date = new Date(Number(nearTimestamp) / 1_000_000);
+
+  const formatted = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return formatted;
 };
 
 export const getTimeRemaining = (targetDate, options = {}) => {

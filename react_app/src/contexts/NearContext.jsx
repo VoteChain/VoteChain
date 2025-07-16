@@ -10,7 +10,7 @@
  * This implementation is optimized for browser environments and Vite.
  */
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 // Wallet Selector
 import { setupWalletSelector } from "@near-wallet-selector/core";
@@ -105,7 +105,6 @@ export default function InnerNearProvider({ children }) {
         setSelector(selectorCon);
         setWallet(walletConnection);
         setContract(contractInstance);
-        getAccount(selectorCon);
       } catch (error) {
         console.error("NEAR initialization error:", error);
       } finally {
@@ -118,19 +117,57 @@ export default function InnerNearProvider({ children }) {
 
   // Get Account everytime wallet changes
   useEffect(() => {
-    getAccount();
+    // const getAcc = async () => {
+    //   // Wait 1–2 seconds for NEAR block finalization
+    //   // await new Promise((res) => setTimeout(res, 1500));
+    //   getAccount();
+    // };
+    // getAcc();
+
+    const getData = setTimeout(() => {
+      getAccount();
+    }, 2000);
+
+    return () => clearTimeout(getData);
   }, [wallet]);
 
-  const getAccount = async (selectorCon = selector) => {
+  const getAccount = async () => {
+    console.log("get account");
+
     // const accounts = selectorCon.store.getState().accounts;
     const accounts = await wallet?.getAccounts();
 
     // ✅ Return the first account if signed in, else null
     const acc = accounts?.length > 0 ? accounts[0] : null;
-    setAccount(acc);
-    setAccountId(acc?.accountId);
 
-    console.log(acc);
+    // Get the user details if the account exist
+    let user;
+    if (acc) {
+      user = await viewFunction("get_user", {
+        walletId: acc?.accountId,
+      });
+
+      if (!user) {
+        // Add the user if not exist
+        await callFunction("add_user", {
+          walletId: acc?.accountId,
+          name: acc?.accountId.split(".")[0],
+          about: "",
+        });
+        // Wait 1–2 seconds for NEAR block finalization
+        await new Promise((res) => setTimeout(res, 1500));
+
+        // Get the added user
+        user = await viewFunction("get_user", {
+          walletId: acc?.accountId,
+        });
+      }
+
+      setAccount({ ...acc, ...user });
+      console.log({ ...acc, ...user });
+
+      setAccountId(acc?.accountId);
+    }
 
     return signedAccountId;
     return accounts?.length > 0 ? accounts[0].accountId : null;
@@ -174,48 +211,8 @@ export default function InnerNearProvider({ children }) {
     }
   };
 
-  const getGreeting = async () => {
-    return await nearViewFunction({
-      contractId: CONTRACT_NAME,
-      method: "get_greeting",
-    });
-  };
-
-  const setGreeting = async () => {
-    const accountId = await getAccount();
-    if (!accountId) return new Error("Connect Wallet");
-
-    try {
-      // const result = await wallet.signAndSendTransaction({
-      //   signerId: accountId,
-      //   receiverId: CONTRACT_NAME,
-      //   actions: [
-      //     {
-      //       type: "FunctionCall",
-      //       params: {
-      //         methodName: "set_greeting",
-      //         args: { greeting: "Howdy" },
-      //         gas: "30000000000000", // 30 Tgas
-      //         deposit: "0",
-      //       },
-      //     },
-      //   ],
-      // });
-      nearCallFunction({
-        contractId: CONTRACT_NAME,
-        method: "set_greeting",
-        args: { greeting: "Hollla" },
-      }).then(async (resp) => {
-        console.log(resp);
-        const greet = await getGreeting();
-        console.log(greet, "<< new greet");
-      });
-    } catch (err) {
-      console.error("Failed to call contract: ", err);
-    }
-  };
-
   // View Function
+  // !!! check if the function exist and is a view function
   const viewFunction = async (
     methodName,
     args = {},
@@ -235,6 +232,7 @@ export default function InnerNearProvider({ children }) {
   };
 
   // Call Function
+  // !!! check if the function exist and is a call function
   const callFunction = async (
     methodName,
     args = {},
@@ -244,7 +242,7 @@ export default function InnerNearProvider({ children }) {
     if (!accountId) return new Error("Connect Wallet");
 
     try {
-      nearCallFunction({
+      await nearCallFunction({
         contractId: contractId,
         method: methodName,
         args: args,
@@ -266,6 +264,7 @@ export default function InnerNearProvider({ children }) {
     signOut, // Function to sign out
     viewFunction,
     callFunction,
+    getAccount,
   };
 
   return (

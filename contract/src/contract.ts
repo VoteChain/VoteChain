@@ -1,22 +1,70 @@
 // Find all our documentation at https://docs.near.org
-import { NearBindgen, near, call, view } from "near-sdk-js";
+import {
+  NearBindgen,
+  near,
+  call,
+  view,
+  UnorderedMap,
+  assert,
+} from "near-sdk-js";
+import { UserProfile } from "./models/UserProfile"; // Import the model
+import { UserManager } from "./logic/UserManager"; // Import the logic manager
+import { AccountId } from "./types/common";
 
 @NearBindgen({})
-class HelloNear {
+class VoteChain {
+  // Schema tells NEAR how to serialize collections
   static schema = {
-    greeting: "string",
+    userProfiles: UnorderedMap,
   };
 
-  greeting: string = "Hello";
+  // ====================
+  // Storage Definitions
+  // ====================
+  // User profiles
+  userProfiles: UnorderedMap<UserProfile> = new UnorderedMap<UserProfile>(
+    "user_profiles"
+  );
 
-  @view({}) // This method is read-only and can be called for free
-  get_greeting({ name = "" }: { name: string }): string {
-    return `${this.greeting} ${name}`;
+  /**
+   * Get a user profile
+   * @param walletId - Account ID of the user
+   */
+  @view({})
+  get_user({ walletId }: { walletId: AccountId }): UserProfile | null {
+    // Delegate again to manager logic
+    return new UserManager(this.userProfiles).getUser(walletId);
   }
 
-  @call({}) // This method changes the state, for which it cost gas
-  set_greeting({ greeting }: { greeting: string }): void {
-    near.log(`Saving greeting ${greeting}`);
-    this.greeting = greeting;
+  @call({})
+  add_user({
+    walletId,
+    name,
+    about = "",
+    email = "",
+  }: {
+    walletId: AccountId;
+    name: string;
+    about: string;
+    email: string;
+  }): void {
+    // Delegate logic to the UserManager class
+    new UserManager(this.userProfiles).addUser(walletId, name, about, email);
+  }
+
+  // Expose a method to update a user
+  @call({})
+  update_user({
+    walletId,
+    name,
+    about,
+    email,
+  }: {
+    walletId: AccountId;
+    name: string;
+    about: string;
+    email: string;
+  }) {
+    new UserManager(this.userProfiles).updateUser(walletId, name, about, email);
   }
 }

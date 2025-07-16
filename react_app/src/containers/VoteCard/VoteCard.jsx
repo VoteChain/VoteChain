@@ -15,7 +15,7 @@ import { SlLock, SlLockOpen } from "react-icons/sl";
 import { FaRegClock, FaPlayCircle, FaCheckCircle } from "react-icons/fa";
 import { FaPercent } from "react-icons/fa6";
 import { BsClockFill, BsFillPeopleFill } from "react-icons/bs";
-import { formatDate, getTimeRemaining } from "../../scripts/functions";
+import { formatDateTime, getTimeRemaining } from "../../scripts/functions";
 
 // Status indicators
 import { FaHourglassStart } from "react-icons/fa";
@@ -86,7 +86,7 @@ function VoteCard({
     //       <p>
     //         <FaRegClock />
     //         <span>
-    //           Duration: {formatDate(openOn)} - {formatDate(closeOn)}
+    //           Duration: {formatDateTime(openOn)} - {formatDateTime(closeOn)}
     //         </span>
     //       </p>
     //       <div className="icons">
@@ -150,7 +150,7 @@ function VoteCard({
         <span className="vote-date">
           {/* <i className="fas fa-calendar"></i> */}
           <FaRegClock />
-          Ends: {formatDate(closeOn)}
+          Ends: {formatDateTime(closeOn)}
         </span>
         <div className="vote-actions">
           <div className="action-btn">
